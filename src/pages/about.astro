@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="About" description="Mani Kamran — Python / Linux & Networking Engineer" depth="042" depthStatus="SIGNAL ACTIVE">
+  <Navigation />
+  <main>
+    <section class="about-page">
+      <div class="container">
+        <h1 class="about-page-title">About</h1>
+        <div class="about-page-inner">
+          <div class="about-page-identity">
+            <h2 class="about-page-name">Mani Kamran</h2>
+            <p class="about-page-role">Python / Linux & Networking Engineer</p>
+          </div>
+          <div class="about-page-content">
+            <p>
+              Independent engineer focused on building practical technical systems.
+              Specializes in Python automation, data extraction pipelines, and network tooling.
+            </p>
+            <p>
+              Interested in problems that require precision, reliability, and engineering depth.
+              Believes in shipping working software with evidence, documentation, and clear ownership.
+            </p>
+            <div class="about-page-links">
+              <a href="https://github.com/macropinix" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="mailto:man@macropinix.com">Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: calc(var(--nav-height) + var(--space-9)) 0 var(--space-9);
+  }
+
+  .about-page-title {
+    font-family: var(--font-sans);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-7);
+  }
+
+  .about-page-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .about-page-identity {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .about-page-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .about-page-role {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .about-page-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .about-page-content p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 36rem;
+  }
+
+  .about-page-links {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .about-page-links a {
+    font-size: 0.875rem;
+    color: var(--signal);
+    opacity: 0.8;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .about-page-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .about-page-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

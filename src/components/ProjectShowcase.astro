@@ -1,0 +1,92 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  screenshots: {
+    src: string;
+    alt: string;
+  }[];
+}
+
+const { title, description, screenshots } = Astro.props;
+---
+
+<section class="project-showcase">
+  <div class="container">
+    <h2 class="section-label">{title}</h2>
+    <p class="project-showcase__description">{description}</p>
+
+    <div class="project-showcase__gallery">
+      {screenshots.map((screenshot) => (
+        <figure class="project-showcase__item">
+          <div class="project-showcase__frame">
+            <img
+              src={screenshot.src}
+              alt={screenshot.alt}
+              class="project-showcase__image"
+              loading="lazy"
+            />
+          </div>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .project-showcase {
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .project-showcase__description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 40rem;
+    margin-bottom: var(--space-7);
+  }
+
+  .project-showcase__gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+    gap: var(--space-5);
+  }
+
+  .project-showcase__item {
+    margin: 0;
+  }
+
+  .project-showcase__frame {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+    overflow: hidden;
+    transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  }
+
+  .project-showcase__frame:hover {
+    border-color: var(--blue-deep);
+    box-shadow: 0 0 30px var(--blue-glow);
+  }
+
+  .project-showcase__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: var(--bg-deep);
+  }
+
+  @media (max-width: 640px) {
+    .project-showcase__gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .project-showcase {
+      padding: var(--space-6) 0;
+    }
+  }
+</style>

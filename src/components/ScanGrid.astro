@@ -1,0 +1,66 @@
+---
+interface Props {
+  intensity?: "subtle" | "medium";
+}
+
+const { intensity = "subtle" } = Astro.props;
+---
+
+<div class={`scan-grid scan-grid--${intensity}`} aria-hidden="true">
+  <div class="scan-grid__lines"></div>
+  <div class="scan-grid__scan"></div>
+</div>
+
+<style>
+  .scan-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .scan-grid__lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.3;
+  }
+
+  .scan-grid__scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to bottom, transparent, var(--signal-dim), transparent);
+    opacity: 0.15;
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes scan {
+    0% {
+      top: -10%;
+    }
+    100% {
+      top: 110%;
+    }
+  }
+
+  .scan-grid--medium .scan-grid__lines {
+    opacity: 0.5;
+  }
+
+  .scan-grid--medium .scan-grid__scan {
+    opacity: 0.25;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan-grid__scan {
+      animation: none;
+      display: none;
+    }
+  }
+</style>

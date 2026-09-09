@@ -1,0 +1,257 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Contact" description="Get in touch about your project." depth="128" depthStatus="CONNECTION READY">
+  <Navigation />
+  <main>
+    <section class="contact">
+      <div class="container">
+        <div class="contact-inner">
+          <div class="contact-header">
+            <p class="contact-label">ESTABLISH CONNECTION</p>
+            <h1 class="contact-title">Start a Project</h1>
+            <p class="contact-description">
+              Have a technical problem worth solving? Describe what you are building
+              and the problem it addresses.
+            </p>
+
+            <div class="contact-meta">
+              <div class="contact-meta-item">
+                <span class="contact-meta-label">STATUS</span>
+                <span class="contact-meta-value">SIGNAL READY</span>
+              </div>
+              <div class="contact-meta-item">
+                <span class="contact-meta-label">DEPTH</span>
+                <span class="contact-meta-value">128</span>
+              </div>
+              <div class="contact-meta-item">
+                <span class="contact-meta-label">MODE</span>
+                <span class="contact-meta-value">DIRECT</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" action="mailto:man@macropinix.com" method="post" enctype="text/plain">
+            <div class="form-group">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" name="name" class="form-input" required autocomplete="name" />
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="email" class="form-input" required autocomplete="email" />
+            </div>
+
+            <div class="form-group">
+              <label for="project" class="form-label">What are you building?</label>
+              <input type="text" id="project" name="project" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="problem" class="form-label">Tell me about the problem...</label>
+              <textarea id="problem" name="problem" class="form-input form-textarea" rows="6" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Start Connection →</button>
+          </form>
+
+          <div class="contact-direct">
+            <p class="contact-direct-label">Or reach out directly</p>
+            <div class="contact-direct-links">
+              <a href="mailto:man@macropinix.com">man@macropinix.com</a>
+              <a href="https://github.com/AdolfMacro" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .contact {
+    padding: calc(var(--nav-height) + var(--space-9)) 0 var(--space-9);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .contact-header {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-6));
+    height: fit-content;
+  }
+
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--signal);
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .contact-label::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--signal-glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  .contact-title {
+    font-family: var(--font-sans);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 20rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+  }
+
+  .contact-meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .contact-meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+  }
+
+  .contact-meta-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal);
+    opacity: 0.8;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .form-input {
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.9375rem;
+    color: var(--text);
+    background: var(--bg-layer);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+    resize: vertical;
+  }
+
+  .form-input:focus {
+    border-color: var(--signal);
+    box-shadow: 0 0 0 1px var(--signal-dim);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .form-textarea {
+    min-height: 8rem;
+  }
+
+  .contact-direct {
+    margin-top: var(--space-7);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-direct-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-3);
+  }
+
+  .contact-direct-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-direct-links a {
+    font-size: 0.9375rem;
+    color: var(--signal);
+    opacity: 0.8;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .contact-direct-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .contact-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-header {
+      position: static;
+    }
+  }
+</style>

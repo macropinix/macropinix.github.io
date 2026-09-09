@@ -1,0 +1,103 @@
+<section class="value">
+  <div class="container">
+    <h2 class="section-label">VALUE</h2>
+    <p class="value-statement">
+      I build systems that do the work.
+    </p>
+    <p class="value-description">
+      Python automation, data extraction, and network tooling for teams that need
+      reliable technical infrastructure — not another dashboard that doesn't solve the problem.
+    </p>
+    <div class="value-points">
+      <div class="value-point">
+        <span class="value-marker">01</span>
+        <span>Automate repetitive work</span>
+      </div>
+      <div class="value-point">
+        <span class="value-marker">02</span>
+        <span>Extract useful data</span>
+      </div>
+      <div class="value-point">
+        <span class="value-marker">03</span>
+        <span>Build Linux / network tooling</span>
+      </div>
+      <div class="value-point">
+        <span class="value-marker">04</span>
+        <span>Turn technical problems into usable software</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .value {
+    padding: var(--space-9) 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--signal);
+    margin-bottom: var(--space-5);
+  }
+
+  .value-statement {
+    font-family: var(--font-sans);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+    max-width: 40rem;
+  }
+
+  .value-description {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 36rem;
+    margin-bottom: var(--space-7);
+  }
+
+  .value-points {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .value-point {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+    transition: border-color var(--duration-fast) ease;
+  }
+
+  .value-point:hover {
+    border-color: var(--blue-deep);
+  }
+
+  .value-marker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal);
+    opacity: 0.7;
+  }
+
+  .value-point span:last-child {
+    font-size: 0.9375rem;
+    color: var(--text);
+  }
+
+  @media (max-width: 640px) {
+    .value-points {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

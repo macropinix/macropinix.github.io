@@ -1,0 +1,240 @@
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <img src="/macropinix.png" alt="Macropinix" class="hero-logo" />
+      <p class="hero-label">SIGNAL DETECTED</p>
+      <h1 class="hero-title">MACROPINIX</h1>
+      <p class="hero-tagline">Engineering beneath the surface.</p>
+      <p class="hero-description">
+        Python systems, automation, data extraction and network tooling
+        for real technical problems.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/work" class="btn btn-primary">Explore the Work</a>
+        <a href="/contact" class="btn btn-secondary">Start a Project</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="signal-node">
+        <span class="signal-dot"></span>
+        <span class="signal-pulse"></span>
+      </div>
+      <div class="signal-trace">
+        <span class="trace-line"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--nav-height);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: center;
+    width: 100%;
+    padding-top: var(--space-9);
+    padding-bottom: var(--space-9);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--signal);
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .hero-logo {
+    width: clamp(220px, 28vw, 360px);
+    height: auto;
+    display: block;
+    margin-bottom: var(--space-5);
+  }
+
+  @media (max-width: 768px) {
+    .hero-logo {
+      width: clamp(180px, 55vw, 260px);
+    }
+  }
+
+  .hero-label::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--signal-glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  .hero-title {
+    font-family: var(--font-sans);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: var(--space-5);
+    max-width: 32rem;
+  }
+
+  .hero-description {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-7);
+    max-width: 28rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .hero-visual {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signal-node {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signal-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--signal-glow), 0 0 40px var(--signal-dim);
+    position: relative;
+    z-index: 2;
+  }
+
+  .signal-pulse {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--signal-dim);
+    border-radius: 50%;
+    animation: signal-ring 3s ease-out infinite;
+  }
+
+  .signal-pulse:nth-child(2) {
+    animation-delay: 1s;
+  }
+
+  .signal-pulse:nth-child(3) {
+    animation-delay: 2s;
+  }
+
+  @keyframes signal-ring {
+    0% {
+      transform: scale(0.3);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .signal-trace {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 1px;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+  }
+
+  .trace-line {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--signal), transparent);
+    opacity: 0.3;
+    animation: trace-sweep 4s ease-in-out infinite;
+  }
+
+  @keyframes trace-sweep {
+    0%,
+    100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-description {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-visual {
+      display: none;
+    }
+
+    .hero-label {
+      justify-content: center;
+    }
+  }
+</style>

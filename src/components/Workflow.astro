@@ -1,0 +1,135 @@
+<section class="workflow">
+  <div class="container">
+    <h2 class="section-label">WORKFLOW</h2>
+    <p class="workflow-intro">
+      How a project moves from problem to delivery.
+    </p>
+
+    <div class="workflow-list">
+      <div class="workflow-item">
+        <span class="workflow-marker">01</span>
+        <div class="workflow-content">
+          <h3 class="workflow-title">Discover</h3>
+          <p class="workflow-description">
+            Understand the problem, constraints, and success criteria before proposing solutions.
+          </p>
+        </div>
+      </div>
+
+      <div class="workflow-connector" aria-hidden="true">
+        <span class="connector-line"></span>
+      </div>
+
+      <div class="workflow-item">
+        <span class="workflow-marker">02</span>
+        <div class="workflow-content">
+          <h3 class="workflow-title">Design</h3>
+          <p class="workflow-description">
+            Structure the system, define boundaries, and map data flow before implementation begins.
+          </p>
+        </div>
+      </div>
+
+      <div class="workflow-connector" aria-hidden="true">
+        <span class="connector-line"></span>
+      </div>
+
+      <div class="workflow-item">
+        <span class="workflow-marker">03</span>
+        <div class="workflow-content">
+          <h3 class="workflow-title">Build</h3>
+          <p class="workflow-description">
+            Implement with precision, test against real conditions, and validate against requirements.
+          </p>
+        </div>
+      </div>
+
+      <div class="workflow-connector" aria-hidden="true">
+        <span class="connector-line"></span>
+      </div>
+
+      <div class="workflow-item">
+        <span class="workflow-marker">04</span>
+        <div class="workflow-content">
+          <h3 class="workflow-title">Deliver</h3>
+          <p class="workflow-description">
+            Ship working software with documentation, evidence, and clear ownership.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .workflow {
+    padding: var(--space-9) 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .workflow-intro {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-7);
+    max-width: 32rem;
+  }
+
+  .workflow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .workflow-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .workflow-marker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal);
+    opacity: 0.6;
+    padding-top: var(--space-1);
+  }
+
+  .workflow-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-1);
+  }
+
+  .workflow-description {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .workflow-connector {
+    grid-column: 1 / -1;
+    padding-left: 1.25rem;
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-2);
+  }
+
+  .connector-line {
+    display: block;
+    width: 1px;
+    height: var(--space-4);
+    background: var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .workflow-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .workflow-connector {
+      padding-left: 0;
+    }
+  }
+</style>

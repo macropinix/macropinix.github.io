@@ -1,0 +1,87 @@
+---
+interface Props {
+  label?: string;
+  depth?: string;
+  status?: string;
+}
+
+const {
+  label = "OBSERVATION",
+  depth = "034",
+  status = "SIGNAL ACTIVE",
+} = Astro.props;
+---
+
+<div class="depth-indicator">
+  <div class="depth-indicator__line"></div>
+  <div class="depth-indicator__content">
+    <span class="depth-indicator__label">{label}</span>
+    <div class="depth-indicator__meta">
+      <span class="depth-indicator__depth">DEPTH {depth}</span>
+      <span class="depth-indicator__status">{status}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .depth-indicator {
+    position: fixed;
+    bottom: var(--space-5);
+    right: var(--space-5);
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    pointer-events: none;
+  }
+
+  .depth-indicator__line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--signal), transparent);
+    opacity: 0.3;
+  }
+
+  .depth-indicator__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    align-items: flex-end;
+  }
+
+  .depth-indicator__label {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+  }
+
+  .depth-indicator__meta {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .depth-indicator__depth {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    color: var(--signal);
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  .depth-indicator__status {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    color: var(--text-dim);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 768px) {
+    .depth-indicator {
+      bottom: var(--space-3);
+      right: var(--space-3);
+    }
+  }
+</style>

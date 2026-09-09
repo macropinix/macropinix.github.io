@@ -1,0 +1,105 @@
+---
+import { services } from "../data/services";
+---
+
+<section class="services">
+  <div class="container">
+    <h2 class="section-label">SERVICES</h2>
+    <p class="services-intro">
+      What technical problems can be solved.
+    </p>
+
+    <div class="services-grid">
+      {services.map((service, index) => (
+        <article class="service-card">
+          <span class="service-index">{String(index + 1).padStart(2, "0")}</span>
+          <h3 class="service-title">{service.title}</h3>
+          <p class="service-description">{service.description}</p>
+          <ul class="service-capabilities" role="list">
+            {service.capabilities.map((cap) => (
+              <li>{cap}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: var(--space-9) 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .services-intro {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-7);
+    max-width: 32rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .service-card {
+    padding: var(--space-6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+    transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease;
+  }
+
+  .service-card:hover {
+    border-color: var(--blue-deep);
+    background: var(--bg-elevated);
+  }
+
+  .service-index {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--signal);
+    opacity: 0.6;
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .service-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-3);
+  }
+
+  .service-description {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .service-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .service-capabilities li {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+  }
+
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
