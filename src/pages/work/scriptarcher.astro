@@ -15,7 +15,7 @@ const scriptarcherScreenshots = [
 ];
 ---
 
-<BaseLayout title={`ScriptArcher — ${project.tagline}`} canonical={`https://macropinix.com/work/${project.slug}`} depth="095" depthStatus="SYSTEM ACTIVE">
+<BaseLayout title={`ScriptArcher — ${project.tagline}`} canonical={`https://macropinix.github.io/work/${project.slug}`} depth="095" depthStatus="SYSTEM ACTIVE">
   <Navigation />
   <main>
     <section class="project-hero">
@@ -34,7 +34,7 @@ const scriptarcherScreenshots = [
 
     <ProjectShowcase
       title="INTERFACE"
-      description="ScriptArcher application interface showing the security and pentesting toolkit workflow."
+      description="ScriptArcher toolkit interface showing the security and pentesting workflow."
       screenshots={scriptarcherScreenshots}
     />
 
@@ -54,45 +54,15 @@ const scriptarcherScreenshots = [
 
     <section class="project-section">
       <div class="container">
-        <h2 class="section-label">CAPABILITIES</h2>
+        <h2 class="section-label">ARCHITECTURE</h2>
         <div class="architecture-flow">
-          <div class="arch-step">
-            <span class="arch-label">IPv6 FINDER</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">MASS MAILER ATTACK</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">SCAN — PORT / IP / RANGE / POPULAR / SWEEP / ZOMBIE / HALF-OPEN</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">DDoS — ICMP / SMURF / TCP / UDP</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">DEAUTHENTICATION ATTACKS</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">MAC SPOOFING</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">ARP SPOOFING</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">DBM ANALYZER</span>
-          </div>
-          <div class="arch-step">
-            <span class="arch-label">SUBDOMAIN SCANNER</span>
-          </div>
+          {project.architecture.map((step, index) => (
+            <div class="arch-step">
+              <span class="arch-label">{step}</span>
+              {index < project.architecture.length - 1 && <span class="arch-arrow">↓</span>}
+            </div>
+          ))}
         </div>
-      </div>
-    </section>
-
-    <section class="project-section">
-      <div class="container">
-        <h2 class="section-label">TECHNICAL DETAILS</h2>
-        <p class="project-text">
-          Built with Python. Key libraries include scapy, socket, colorama, requests, and email. Relies on external tooling such as nmap, aircrack-ng, iw, and net-tools for network and wireless operations.
-        </p>
       </div>
     </section>
 
@@ -100,22 +70,12 @@ const scriptarcherScreenshots = [
       <div class="container">
         <h2 class="section-label">ENGINEERING DECISIONS</h2>
         <ul class="decision-list" role="list">
-          <li class="decision-item">
-            <span class="decision-marker">▸</span>
-            Scapy-based packet crafting for low-level network control
-          </li>
-          <li class="decision-item">
-            <span class="decision-marker">▸</span>
-            Nmap integration for scanning workflows
-          </li>
-          <li class="decision-item">
-            <span class="decision-marker">▸</span>
-            Modular CLI structure separating discovery, scanning, and attack utilities
-          </li>
-          <li class="decision-item">
-            <span class="decision-marker">▸</span>
-            Open-source release with documented installation flow
-          </li>
+          {project.engineeringDecisions.map((decision) => (
+            <li class="decision-item">
+              <span class="decision-marker">▸</span>
+              {decision}
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -124,9 +84,9 @@ const scriptarcherScreenshots = [
       <div class="container">
         <h2 class="section-label">EVIDENCE</h2>
         <ul class="evidence-list" role="list">
-          <li class="evidence-item">Repository available</li>
-          <li class="evidence-item">Open source</li>
-          <li class="evidence-item">Multiple security utilities</li>
+          {project.evidence.map((item) => (
+            <li class="evidence-item">{item}</li>
+          ))}
         </ul>
       </div>
     </section>

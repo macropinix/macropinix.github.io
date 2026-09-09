@@ -8,7 +8,7 @@ export const services: Service[] = [
   {
     title: "Web Scraping & Data Extraction",
     description:
-      "Extract structured data from difficult sources. Build resilient extraction pipelines that handle anti-bot measures, pagination, and inconsistent formats.",
+      "When data is scattered across providers with inconsistent formats and anti-bot measures, standard tooling fails. Build resilient extraction pipelines with normalization, deduplication, and validation for any source.",
     capabilities: [
       "Multi-provider extraction",
       "Data normalization",
@@ -19,7 +19,7 @@ export const services: Service[] = [
   {
     title: "Python Automation",
     description:
-      "Automate repetitive workflows and technical processes. Turn manual operations into reliable, maintainable Python systems.",
+      "When workflows require manual, repetitive intervention, error rates compound and time costs grow. Engineer automated Python systems that are reliable, testable, and maintainable.",
     capabilities: [
       "Workflow automation",
       "Script development",
@@ -30,7 +30,7 @@ export const services: Service[] = [
   {
     title: "Linux & Network Automation",
     description:
-      "Build tooling for Linux environments and network operations. From interface discovery to traffic analysis and system monitoring.",
+      "When infrastructure is opaque, operations fail silently. Build tooling for Linux and network environments that makes interfaces, traffic, and system state observable.",
     capabilities: [
       "Network tooling",
       "System automation",
@@ -41,7 +41,7 @@ export const services: Service[] = [
   {
     title: "Custom Python Tools",
     description:
-      "Design and build custom utilities for specific technical problems. When off-the-shelf tools fall short, engineer the right solution.",
+      "When existing tools cannot solve the specific problem at hand, generic solutions break. Engineer custom Python utilities with CLI interfaces and tight integration.",
     capabilities: [
       "Bespoke tool development",
       "CLI interfaces",

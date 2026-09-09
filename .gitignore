@@ -24,3 +24,9 @@ pnpm-debug.log*
 .idea/
 
 .vscode/
+
+# ssh keys
+macropinix
+macropinix.pub
+*.pem
+*.key
