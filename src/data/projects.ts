@@ -106,6 +106,43 @@ export const projects: Project[] = [
     priority: 3,
   },
   {
+    slug: "patogh",
+    name: "PATOGH",
+    tagline: "Café Accounting & POS System",
+    description:
+      "A desktop café management and accounting system covering sales, purchases, inventory, expenses, cash flow, and reporting — with remote monitoring over IRC.",
+    problem:
+      "Small cafés run on paper notebooks and memory. Sales, stock, and purchases are untracked, costs are invisible, and the owner cannot see the day's activity without being physically present at the counter.",
+    approach:
+      "Build a complete operational system around a normalized SQLite schema, expose it through a PyQt6 desktop interface, and push important events to a remote IRC channel so activity is observable from anywhere.",
+    architecture: [
+      "GUI ENTRY",
+      "AUTH & USERS",
+      "SERVICE LAYER",
+      "SQLITE SCHEMA",
+      "REPORTS ENGINE",
+      "BACKUP & SEARCH",
+      "IRC EVENT BUS",
+      "REMOTE CHANNEL",
+    ],
+    engineeringDecisions: [
+      "Normalized 11-table SQLite schema separating cost and selling price",
+      "Thread-safe IRC client with a queued sender thread and SSL support",
+      "Every mutation emits a structured event to the remote monitoring channel",
+      "Built-in database backup and full-text search across records",
+    ],
+    technologies: ["Python", "PyQt6", "SQLite", "IRC", "Desktop"],
+    evidence: [
+      "Repository available",
+      "5,387 lines of Python",
+      "Trilingual documentation",
+      "GPL-3.0 licensed",
+      "4 interface screenshots",
+    ],
+    repository: "https://github.com/AdolfMacro/patogh-cafe-accounting-system",
+    priority: 5,
+  },
+  {
     slug: "scriptarcher",
     name: "ScriptArcher",
     tagline: "Python Security & Pentesting Toolkit",
