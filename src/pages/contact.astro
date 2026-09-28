@@ -34,7 +34,13 @@ import Footer from "../components/Footer.astro";
             </div>
           </div>
 
-          <form class="contact-form" action="mailto:m4nikamran@gmail.com" method="post" enctype="text/plain">
+          {/*
+              A `mailto:` form target is unreliable: Firefox and Chrome both
+              drop or garble the submitted body. The form instead composes the
+              message client-side and opens the user's own mail client, so the
+              text is never lost and no third-party service handles it.
+            */}
+          <form class="contact-form" id="contact-form">
             <div class="form-group">
               <label for="name" class="form-label">Name</label>
               <input type="text" id="name" name="name" class="form-input" required autocomplete="name" />
@@ -56,6 +62,7 @@ import Footer from "../components/Footer.astro";
             </div>
 
             <button type="submit" class="btn btn-primary">Start Connection →</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
           </form>
 
           <div class="contact-direct">
@@ -254,4 +261,51 @@ import Footer from "../components/Footer.astro";
       position: static;
     }
   }
+
+  .form-status {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    color: var(--signal);
+    min-height: 1rem;
+    margin-top: var(--space-3);
+  }
 </style>
+
+<script>
+  const CONTACT_EMAIL = "m4nikamran@gmail.com";
+
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const status = document.querySelector<HTMLElement>("#form-status");
+
+  if (form && status) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const name = String(data.get("name") ?? "").trim();
+      const email = String(data.get("email") ?? "").trim();
+      const project = String(data.get("project") ?? "").trim();
+      const problem = String(data.get("problem") ?? "").trim();
+
+      const subject = `Project enquiry — ${project}`;
+      const body = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Project: ${project}`,
+        "",
+        "Problem:",
+        problem,
+      ].join("\n");
+
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
+
+      status.textContent =
+        "Opening your mail client — send the message to reach out.";
+      form.reset();
+    });
+  }
+</script>

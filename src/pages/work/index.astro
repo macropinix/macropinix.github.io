@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navigation from "../../components/Navigation.astro";
 import Footer from "../../components/Footer.astro";
-import { projects } from "../../data/projects";
+import { featuredProjects } from "../../data/projects";
 ---
 
 <BaseLayout title="Work" description="Selected technical projects by Mani Kamran." depth="071" depthStatus="SYSTEM SCAN">
@@ -16,10 +16,7 @@ import { projects } from "../../data/projects";
         </p>
 
         <div class="work-page-list">
-          {projects
-            .slice()
-            .sort((a, b) => a.priority - b.priority)
-            .map((project) => (
+          {featuredProjects.map((project) => (
               <a href={`/work/${project.slug}`} class="project-card">
                 <div class="project-header">
                   <div class="project-meta">

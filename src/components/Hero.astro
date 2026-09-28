@@ -1,7 +1,17 @@
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-content">
-      <img src="/macropinix.png" alt="Macropinix" class="hero-logo" />
+      <div class="hero-logo-parallax">
+        <img
+          src="/macropinix.webp"
+          alt="Macropinix"
+          class="hero-logo"
+          width="726"
+          height="421"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
       <p class="hero-label">SIGNAL DETECTED</p>
       <h1 class="hero-title">MACROPINIX</h1>
       <p class="hero-tagline">Engineering beneath the surface.</p>
@@ -65,16 +75,54 @@
     gap: var(--space-2);
   }
 
-  .hero-logo {
+  /* Parallax wrapper. The scroll-linked transform lives here, separate from
+     the breathing animation on .hero-logo, so the two never overwrite
+     each other's transform. */
+  .hero-logo-parallax {
     width: clamp(220px, 28vw, 360px);
-    height: auto;
-    display: block;
     margin-bottom: var(--space-5);
+    will-change: transform;
+    transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0);
   }
 
   @media (max-width: 768px) {
-    .hero-logo {
+    .hero-logo-parallax {
       width: clamp(180px, 55vw, 260px);
+    }
+  }
+
+  .hero-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Transform/opacity only, so the animation stays on the compositor and
+       never triggers layout or repaint. */
+    animation: signal-breathe 5s ease-in-out infinite;
+  }
+
+  /* Matches the sonar/signal language already used by the hero visuals:
+     the mark surfaces, holds, and dims again, like a repeating ping. */
+  @keyframes signal-breathe {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.92;
+      filter: drop-shadow(0 0 6px rgba(0, 255, 153, 0.25));
+    }
+    50% {
+      transform: translate3d(0, -3px, 0) scale(1.015);
+      opacity: 1;
+      filter: drop-shadow(0 0 18px rgba(0, 255, 153, 0.55));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo {
+      animation: none;
+    }
+
+    .hero-logo-parallax {
+      transform: none;
     }
   }
 
@@ -238,3 +286,64 @@
     }
   }
 </style>
+
+<script>
+  // Scroll-linked parallax. The mark sweeps to the right and down along a
+  // shallow arc, and returns to its exact start position when scrolling back
+  // up, because progress is always recomputed from the absolute scroll offset
+  // rather than accumulated. Progress is clamped, so once the mark has left
+  // the viewport it holds at the end of its travel instead of running away.
+  //
+  // The path bows upward before it settles: the vertical leg is a net downward
+  // drift with a sine hump subtracted from it, so the mark lifts to a crest
+  // partway through and then curves down into the diagonal. That crest is what
+  // makes it read as a swoosh rather than a straight slide.
+  const MAX_TRAVEL_X_PX = 190;
+  const DRIFT_Y_PX = 100;
+  const CREST_Y_PX = 42;
+
+  const target = document.querySelector<HTMLElement>(".hero-logo-parallax");
+  if (target) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const apply = () => {
+      if (reduced.matches) {
+        target.style.removeProperty("--parallax-y");
+        target.style.removeProperty("--parallax-x");
+        return;
+      }
+      // Distance over which the logo completes its travel.
+      const range = Math.max(target.offsetHeight * 2, window.innerHeight * 0.6);
+      const progress = Math.min(Math.max(window.scrollY / range, 0), 1);
+      // Slight ease-out so the start of the scroll feels unhurried and the
+      // movement settles rather than snapping to the end.
+      const eased = 1 - Math.pow(1 - progress, 1.6);
+      // On narrow screens the mark is centred and there is no room to travel
+      // sideways, so the horizontal leg is scaled down to avoid overflow.
+      const room = Math.max(0, window.innerWidth - target.offsetWidth - 32);
+      const travelX = Math.min(MAX_TRAVEL_X_PX, room);
+      // Net downward drift, minus a sine hump that peaks mid-flight. The mark
+      // therefore rises first, crests, then curves down into place. Both terms
+      // are zero at eased=0, so the mark still starts exactly where it sits.
+      const hump = Math.sin(Math.PI * eased);
+      const y = DRIFT_Y_PX * eased - CREST_Y_PX * hump;
+      target.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
+      target.style.setProperty("--parallax-x", `${(eased * travelX).toFixed(2)}px`);
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        apply();
+      });
+    };
+
+    apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    reduced.addEventListener("change", onScroll);
+  }
+</script>

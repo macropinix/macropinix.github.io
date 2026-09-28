@@ -13,12 +13,19 @@ const cta = { href: "/contact", label: "Start a Project" };
   <nav class="nav container">
     <a href="/" class="nav-brand">
       <span class="nav-logo-wrap">
-        <img src="/MLogo.png" alt="Macropinix" class="nav-logo" />
+        <img
+          src="/MLogo.webp"
+          alt="Macropinix"
+          class="nav-logo"
+          width="632"
+          height="577"
+          decoding="async"
+        />
       </span>
       <span class="nav-depth">DEPTH 034</span>
     </a>
 
-    <ul class="nav-links" role="list">
+    <ul class="nav-links" id="nav-links" role="list">
       {navLinks.map((link) => (
         <li>
           <a href={link.href} class="nav-link">{link.label}</a>
@@ -32,6 +39,7 @@ const cta = { href: "/contact", label: "Start a Project" };
     <button
       class="nav-toggle"
       aria-label="Toggle navigation"
+      aria-controls="nav-links"
       aria-expanded="false"
     >
       <span class="nav-toggle-line"></span>
@@ -88,7 +96,6 @@ const cta = { href: "/contact", label: "Start a Project" };
     width: auto;
     display: block;
   }
-
   .nav-depth {
     font-family: var(--font-mono);
     font-size: 0.625rem;
@@ -202,20 +209,41 @@ const cta = { href: "/contact", label: "Start a Project" };
 </style>
 
 <script>
-  const toggle = document.querySelector(".nav-toggle");
-  const links = document.querySelector(".nav-links");
+  const toggle = document.querySelector<HTMLElement>(".nav-toggle");
+  const links = document.querySelector<HTMLElement>(".nav-links");
 
   if (toggle && links) {
+    const setOpen = (open: boolean) => {
+      links.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    };
+
     toggle.addEventListener("click", () => {
-      const isOpen = links.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
+      setOpen(!links.classList.contains("is-open"));
+    });
+
+    // Escape closes the menu and returns focus to the control that opened it.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && links.classList.contains("is-open")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // A click outside the open menu dismisses it.
+    document.addEventListener("click", (event) => {
+      if (!links.classList.contains("is-open")) return;
+      const target = event.target as Node;
+      if (!links.contains(target) && !toggle.contains(target)) setOpen(false);
+    });
+
+    // Rotating back to a wide viewport should not leave the menu stuck open.
+    window.matchMedia("(min-width: 769px)").addEventListener("change", (event) => {
+      if (event.matches) setOpen(false);
     });
 
     links.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        links.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", () => setOpen(false));
     });
   }
 </script>

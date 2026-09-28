@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Not Found — Macropinix"
+  description="The requested page does not exist."
+  depth="404"
+  depthStatus="SIGNAL LOST"
+>
+  <Navigation />
+  <main>
+    <section class="notfound">
+      <div class="container">
+        <p class="notfound-label">SIGNAL LOST</p>
+        <h1 class="notfound-code">404</h1>
+        <p class="notfound-text">
+          Nothing was detected at this address. The page may have moved, or it
+          never existed.
+        </p>
+        <div class="notfound-actions">
+          <a href="/" class="btn btn-primary">Return home</a>
+          <a href="/work" class="btn btn-secondary">Inspect the work</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .notfound {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--nav-height) + var(--space-8)) 0 var(--space-8);
+  }
+
+  .notfound-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--signal);
+    margin-bottom: var(--space-3);
+  }
+
+  .notfound-code {
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-5);
+  }
+
+  .notfound-text {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 30rem;
+    margin-bottom: var(--space-7);
+  }
+
+  .notfound-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+</style>

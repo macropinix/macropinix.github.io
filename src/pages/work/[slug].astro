@@ -1,42 +1,61 @@
 ---
+import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navigation from "../../components/Navigation.astro";
 import Footer from "../../components/Footer.astro";
 import ProjectShowcase from "../../components/ProjectShowcase.astro";
-import { projects } from "../../data/projects";
+import { featuredProjects, projects } from "../../data/projects";
 
-const project = projects.find((p) => p.slug === "phoenix")!;
+// Every project gets a page from one template, so a new project needs a data
+// entry only — no new route file to copy.
+export const getStaticPaths = (() =>
+  projects.map((project) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      // Other projects, in priority order, so each page can link onwards.
+      related: featuredProjects.filter((p) => p.slug !== project.slug),
+    },
+  }))) satisfies GetStaticPaths;
 
-const phoenixScreenshots = [
-  {
-    src: "https://raw.githubusercontent.com/AdolfMacro/phoenix/main/screenshots/1.png",
-    alt: "Phoenix project interface showing tool-building and system implementation",
-  },
-];
+const { project, related } = Astro.props;
 ---
 
-<BaseLayout title={`Phoenix — ${project.tagline}`} canonical={`https://macropinix.github.io/work/${project.slug}`} depth="095" depthStatus="PROCESS">
+<BaseLayout
+  title={`${project.name} — ${project.tagline}`}
+  description={project.description}
+  depth={project.depth}
+  depthStatus={project.depthStatus}
+  type="article"
+>
   <Navigation />
   <main>
     <section class="project-hero">
       <div class="container">
         <div class="project-meta-bar">
-          <span class="project-meta-item">STATUS / PUBLIC</span>
-          <span class="project-meta-item">SOURCE / PYTHON</span>
-          <span class="project-meta-item">SYSTEM / TOOLING</span>
+          <span class="project-meta-item">STATUS / {project.status}</span>
+          <span class="project-meta-item">SOURCE / {project.source}</span>
+          <span class="project-meta-item">SYSTEM / {project.system}</span>
         </div>
         <p class="project-label">PROJECT</p>
         <h1 class="project-name">{project.name}</h1>
         <p class="project-tagline">{project.tagline}</p>
         <p class="project-description">{project.description}</p>
+        <ul class="project-tech" role="list">
+          {project.technologies.map((tech) => <li>{tech}</li>)}
+        </ul>
       </div>
     </section>
 
-    <ProjectShowcase
-      title="INTERFACE"
-      description="Phoenix project interface demonstrating end-to-end tool building workflow and system implementation."
-      screenshots={phoenixScreenshots}
-    />
+    {
+      project.screenshots.length > 0 && (
+        <ProjectShowcase
+          title={project.showcaseTitle}
+          description={project.showcaseDescription}
+          screenshots={project.screenshots}
+        />
+      )
+    }
 
     <section class="project-section">
       <div class="container">
@@ -59,7 +78,9 @@ const phoenixScreenshots = [
           {project.architecture.map((step, index) => (
             <div class="arch-step">
               <span class="arch-label">{step}</span>
-              {index < project.architecture.length - 1 && <span class="arch-arrow">↓</span>}
+              {index < project.architecture.length - 1 && (
+                <span class="arch-arrow" aria-hidden="true">↓</span>
+              )}
             </div>
           ))}
         </div>
@@ -72,7 +93,7 @@ const phoenixScreenshots = [
         <ul class="decision-list" role="list">
           {project.engineeringDecisions.map((decision) => (
             <li class="decision-item">
-              <span class="decision-marker">▸</span>
+              <span class="decision-marker" aria-hidden="true">▸</span>
               {decision}
             </li>
           ))}
@@ -84,9 +105,7 @@ const phoenixScreenshots = [
       <div class="container">
         <h2 class="section-label">EVIDENCE</h2>
         <ul class="evidence-list" role="list">
-          {project.evidence.map((item) => (
-            <li class="evidence-item">{item}</li>
-          ))}
+          {project.evidence.map((item) => <li class="evidence-item">{item}</li>)}
         </ul>
       </div>
     </section>
@@ -102,6 +121,24 @@ const phoenixScreenshots = [
         >
           {project.repository}
         </a>
+      </div>
+    </section>
+
+    <section class="project-section">
+      <div class="container">
+        <h2 class="section-label">NEXT</h2>
+        <ul class="related-list" role="list">
+          {related.map((item) => (
+            <li>
+              <a href={`/work/${item.slug}`} class="related-item">
+                <span class="related-name">{item.name}</span>
+                <span class="related-tagline">{item.tagline}</span>
+                <span class="related-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a href="/work" class="btn btn-secondary">All work</a>
       </div>
     </section>
   </main>
@@ -162,6 +199,23 @@ const phoenixScreenshots = [
     color: var(--text-muted);
     line-height: 1.7;
     max-width: 36rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project-tech li {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
   }
 
   .project-section {
@@ -180,7 +234,7 @@ const phoenixScreenshots = [
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    max-width: 24rem;
+    max-width: 40rem;
   }
 
   .arch-step {
@@ -203,14 +257,16 @@ const phoenixScreenshots = [
     opacity: 0.6;
   }
 
-  .decision-list {
+  .decision-list,
+  .evidence-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
     max-width: 40rem;
   }
 
-  .decision-item {
+  .decision-item,
+  .evidence-item {
     font-size: 0.9375rem;
     color: var(--text-muted);
     line-height: 1.6;
@@ -221,21 +277,6 @@ const phoenixScreenshots = [
   .decision-marker {
     color: var(--signal);
     opacity: 0.7;
-  }
-
-  .evidence-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    max-width: 40rem;
-  }
-
-  .evidence-item {
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    display: flex;
-    gap: var(--space-2);
   }
 
   .evidence-item::before {
@@ -256,5 +297,49 @@ const phoenixScreenshots = [
   .repo-link:hover {
     opacity: 1;
     text-decoration: underline;
+  }
+
+  .related-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 40rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .related-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+    transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease;
+  }
+
+  .related-item:hover {
+    border-color: var(--blue-deep);
+    background: var(--bg-elevated);
+  }
+
+  .related-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .related-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .related-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--signal);
+    opacity: 0.7;
   }
 </style>

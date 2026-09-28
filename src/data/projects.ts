@@ -1,3 +1,21 @@
+import type { ImageMetadata } from "astro";
+
+import eyeMap from "../assets/shots/eye-map.webp";
+import eyeImage from "../assets/shots/eye-image.webp";
+import eyenvSc1 from "../assets/shots/eyenv-sc1.webp";
+import eyenvSc2 from "../assets/shots/eyenv-sc2.webp";
+import phoenix1 from "../assets/shots/phoenix-1.webp";
+import scriptarcher1 from "../assets/shots/scriptarcher-1.webp";
+import patogh1 from "../assets/shots/patogh-1.webp";
+import patogh2 from "../assets/shots/patogh-2.webp";
+import patogh3 from "../assets/shots/patogh-3.webp";
+import patogh4 from "../assets/shots/patogh-4.webp";
+
+export interface Screenshot {
+  src: ImageMetadata;
+  alt: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -11,6 +29,17 @@ export interface Project {
   evidence: string[];
   repository: string;
   priority: number;
+  /** Shown in the detail page header bar. */
+  status: string;
+  source: string;
+  system: string;
+  /** Decorative readout in the corner of the detail page. */
+  depth: string;
+  depthStatus: string;
+  /** Optional screenshot gallery; projects without captures omit it. */
+  screenshots: Screenshot[];
+  showcaseTitle: string;
+  showcaseDescription: string;
 }
 
 export const projects: Project[] = [
@@ -42,6 +71,18 @@ export const projects: Project[] = [
     technologies: ["Python", "Multi-provider", "Extraction", "Validation"],
     evidence: ["Repository available", "Modular architecture", "Tested extraction flows"],
     repository: "https://github.com/AdolfMacro/EYE-scrapper-master",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "MULTI-PROVIDER",
+    depth: "112",
+    depthStatus: "DATA STREAM",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "The extraction map and Data Manager, showing how discovered sources are traced, normalised and validated.",
+    screenshots: [
+      { src: eyeMap, alt: "EYES // SCRAPER MASTER extraction map showing the full provider workflow" },
+      { src: eyeImage, alt: "EYE Scrapper Master Data Manager interface with the structured data view" },
+    ],
     priority: 1,
   },
   {
@@ -74,6 +115,18 @@ export const projects: Project[] = [
     technologies: ["Python", "Scapy", "Networking", "Analysis"],
     evidence: ["Repository available", "Network tooling", "Analysis pipelines"],
     repository: "https://github.com/AdolfMacro/EYEnv",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "NETWORK",
+    depth: "089",
+    depthStatus: "NETWORK SCAN",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "Network vision dashboards showing traffic visualisation, interface discovery and the analysis panels.",
+    screenshots: [
+      { src: eyenvSc1, alt: "EYEnv network vision dashboard showing traffic visualisation and interface discovery" },
+      { src: eyenvSc2, alt: "EYEnv dashboard view with the network analysis and reporting panels" },
+    ],
     priority: 2,
   },
   {
@@ -103,6 +156,17 @@ export const projects: Project[] = [
     technologies: ["Python", "CLI", "Tooling", "Packaging"],
     evidence: ["Repository available", "Installation guide", "Usage examples"],
     repository: "https://github.com/AdolfMacro/phoenix",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "TOOLING",
+    depth: "034",
+    depthStatus: "PROCESS",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "The Phoenix project interface, showing the tool-building and installation workflow.",
+    screenshots: [
+      { src: phoenix1, alt: "Phoenix project interface showing the tool-building and implementation workflow" },
+    ],
     priority: 3,
   },
   {
@@ -140,6 +204,20 @@ export const projects: Project[] = [
       "4 interface screenshots",
     ],
     repository: "https://github.com/AdolfMacro/patogh-cafe-accounting-system",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "ACCOUNTING",
+    depth: "151",
+    depthStatus: "IRC LINKED",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "PATOGH café accounting and POS interfaces covering the dashboard, sales entry, inventory management, and reporting views.",
+    screenshots: [
+      { src: patogh1, alt: "PATOGH cafe accounting dashboard showing sales, purchases and inventory at a glance" },
+      { src: patogh2, alt: "PATOGH sales and transaction entry interface for recording cafe orders" },
+      { src: patogh3, alt: "PATOGH inventory and product management with stock levels and pricing" },
+      { src: patogh4, alt: "PATOGH reports and accounting summaries covering sales, purchases and expenses" },
+    ],
     priority: 5,
   },
   {
@@ -172,6 +250,17 @@ export const projects: Project[] = [
     technologies: ["Python", "Scapy", "Nmap", "Networking", "Security"],
     evidence: ["Repository available", "Open source", "Multiple security utilities"],
     repository: "https://github.com/AdolfMacro/ScriptArcher",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "SECURITY",
+    depth: "077",
+    depthStatus: "SYSTEM ACTIVE",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "The ScriptArcher toolkit interface, showing the security and network utility modules.",
+    screenshots: [
+      { src: scriptarcher1, alt: "ScriptArcher toolkit interface showing the security and pentesting utilities" },
+    ],
     priority: 4,
   },
 ];

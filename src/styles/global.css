@@ -1,11 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
-
 :root {
   --bg: #05080D;
   --bg-deep: #030508;
   --bg-layer: #081019;
   --bg-elevated: #0C1622;
-  --bg-card: #0A1018;
 
   --text: #E7EDF2;
   --text-muted: #8D9AA6;
@@ -15,7 +12,6 @@
   --signal-dim: rgba(0, 255, 153, 0.15);
   --signal-glow: rgba(0, 255, 153, 0.3);
 
-  --blue: #1E3A5F;
   --blue-deep: #142733;
   --blue-glow: rgba(30, 58, 95, 0.4);
 
@@ -34,15 +30,12 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --space-9: 6rem;
-  --space-10: 8rem;
 
   --radius-sm: 2px;
   --radius-md: 4px;
-  --radius-lg: 6px;
 
   --duration-fast: 150ms;
   --duration-normal: 300ms;
-  --duration-slow: 500ms;
 
   --max-width: 1200px;
   --nav-height: 64px;
@@ -60,9 +53,12 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -186,10 +182,12 @@ ol {
   font-size: 1rem;
 }
 
+/* Decorative background layer. Sits behind all page content so it never
+   draws over images, cards, or text. */
 .scan-grid {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
 }
@@ -227,5 +225,132 @@ ol {
   .scan-grid__scan {
     animation: none;
     display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Radar ring
+   A single neon arc that travels around the edge of a card like a radar
+   sweep. The arc angle is driven by the page scroll position rather than by
+   a timer, so the sweep advances exactly as the user scrolls and freezes
+   when they stop. Each card is offset by --ring-offset so the arcs do not
+   pulse in lockstep.
+   --------------------------------------------------------------------------- */
+
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --ring-time {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --ring-sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 128deg;
+}
+
+.radar-ring {
+  position: relative;
+}
+
+.radar-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from calc(
+      var(--ring-angle, 0deg) + var(--ring-time, 0deg) + var(--ring-offset, 0deg)
+    ),
+    transparent 0deg,
+    transparent var(--ring-sweep),
+    var(--signal-glow) calc(var(--ring-sweep) - 26deg),
+    var(--signal) var(--ring-sweep),
+    #ffffff calc(var(--ring-sweep) + 3deg),
+    var(--signal) calc(var(--ring-sweep) + 9deg),
+    var(--signal-glow) calc(var(--ring-sweep) + 30deg),
+    transparent calc(var(--ring-sweep) + 62deg),
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.8;
+  /* Single continuous sweep. The earlier flicker keyframes were dropped:
+     they forced an extra opacity repaint every frame for no visual gain. */
+  animation: ring-spin 7s linear infinite;
+  animation-delay: var(--ring-delay, 0s);
+}
+
+@keyframes ring-spin {
+  from {
+    --ring-time: 0deg;
+  }
+  to {
+    --ring-time: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-ring::after {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* Rings only animate while the card is near the viewport. Off-screen cards
+   get no animation at all, so a long page does not keep hidden conic
+   gradients running. Applied by the scroll driver in BaseLayout. */
+.radar-ring:not(.is-live)::after {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Off-screen pausing
+
+   The decorative animations below are cheap on their own but run forever,
+   including while the user reads a completely different part of the page.
+   Each is paused by default and only resumed while its section is on screen,
+   driven by the IntersectionObserver in BaseLayout. A paused animation costs
+   nothing, so the parts of the page the user cannot see cost nothing either.
+   --------------------------------------------------------------------------- */
+
+/* The !important is required: the `animation` shorthand in each component's
+   scoped style resets animation-play-state back to `running`, and those
+   hashed component selectors outrank a plain class here. */
+.scan-grid__scan,
+.hero-logo,
+.signal-pulse,
+.trace-line {
+  animation-play-state: paused !important;
+}
+
+.is-animating .scan-grid__scan,
+.is-animating .hero-logo,
+.is-animating .signal-pulse,
+.is-animating .trace-line {
+  animation-play-state: running !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-grid__scan,
+  .hero-logo,
+  .signal-pulse,
+  .trace-line {
+    animation: none;
   }
 }

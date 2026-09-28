@@ -1,43 +1,58 @@
-# Astro Starter Kit: Minimal
+# macropinix.github.io
 
-```sh
-npm create astro@latest -- --template minimal
+Portfolio site for **Macropinix** — Python automation, data extraction, and
+Linux / network tooling by Mani Kamran.
+
+Built with [Astro](https://astro.build). Fully static, deployed to GitHub
+Pages.
+
+## Commands
+
+| Command | Action |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start the dev server |
+| `npm run check` | Type-check `.astro` and `.ts` files |
+| `npm run build` | Build to `dist/` |
+| `npm run preview` | Preview the production build |
+
+`npm run check` runs in CI, so type errors fail the deploy rather than
+shipping.
+
+## Structure
+
+```
+src/
+  assets/shots/     Project screenshots (imported through astro:assets)
+  components/       Astro components, scoped styles
+  data/
+    projects.ts     Project content: one entry per project
+    services.ts     Service offerings
+  layouts/
+    BaseLayout.astro  Head metadata, canonical URL, global motion driver
+  pages/
+    work/[slug].astro  Single template for every project page
+  styles/global.css  Design tokens, base styles, radar ring
+public/             Files copied verbatim (favicons, og-image)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Adding a project
 
-## 🚀 Project Structure
+Add one entry to `src/data/projects.ts`. The listing on the home page, the
+detail page, its canonical URL, the sitemap, and the "next project" links are
+all generated from that entry — no page file needs to be created or edited.
 
-Inside of your Astro project, you'll see the following folders and files:
+Screenshots go in `src/assets/shots/` and are imported by the entry. They are
+optimised and served as responsive WebP automatically.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Notes
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Every page derives its own `canonical` URL from its route, so a page cannot
+  accidentally claim the site root.
+- The social preview image must be a raster format at an absolute URL;
+  `public/og-image.png` is 1200×630.
+- Decorative animation is gated by an `IntersectionObserver`: the radar ring on
+  the Selected Work cards and the always-on background motion only run while
+  their section is on screen. `prefers-reduced-motion` disables both.
+- Images use `astro:assets` (`<Image>`), which outputs `srcset` variants and
+  explicit dimensions to avoid layout shift.

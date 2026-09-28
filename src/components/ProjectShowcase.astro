@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
 interface Props {
   title: string;
   description: string;
   screenshots: {
-    src: string;
+    src: ImageMetadata;
     alt: string;
   }[];
 }
@@ -20,11 +22,14 @@ const { title, description, screenshots } = Astro.props;
       {screenshots.map((screenshot) => (
         <figure class="project-showcase__item">
           <div class="project-showcase__frame">
-            <img
+            <Image
               src={screenshot.src}
               alt={screenshot.alt}
               class="project-showcase__image"
+              widths={[480, 720, 1080]}
+              sizes="(max-width: 640px) 100vw, (max-width: 1100px) 90vw, 640px"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </figure>
@@ -75,8 +80,9 @@ const { title, description, screenshots } = Astro.props;
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
+    /* Screenshots are tool UIs of varying aspect ratios. Fitting them inside
+       the frame keeps the whole capture readable; cover was cropping the top
+       and bottom of most of them. */
     background: var(--bg-deep);
   }
 
