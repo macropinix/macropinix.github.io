@@ -10,6 +10,9 @@ import patogh1 from "../assets/shots/patogh-1.webp";
 import patogh2 from "../assets/shots/patogh-2.webp";
 import patogh3 from "../assets/shots/patogh-3.webp";
 import patogh4 from "../assets/shots/patogh-4.webp";
+import visicli1 from "../assets/shots/visicli-1.png";
+import visicli2 from "../assets/shots/visicli-2.png";
+import visicli3 from "../assets/shots/visicli-3.png";
 
 export interface Screenshot {
   src: ImageMetadata;
@@ -262,6 +265,53 @@ export const projects: Project[] = [
       { src: scriptarcher1, alt: "ScriptArcher toolkit interface showing the security and pentesting utilities" },
     ],
     priority: 4,
+  },
+  {
+    slug: "visicli",
+    name: "VisiCLI",
+    tagline: "Gesture-Controlled Python Code Explorer",
+    description:
+      "A terminal-based code explorer that maps Python packages, files, classes, functions, and selected relationships into a navigable hierarchy controlled by hand gestures or keyboard input.",
+    problem:
+      "Understanding the structure of a Python codebase from a terminal can require jumping between files and tools, while importing a project just to inspect it can execute code with unintended side effects.",
+    approach:
+      "Parse Python source with a bounded, deterministic AST scan and present the resulting structure as terminal cards with hierarchical navigation, keyboard controls, and optional webcam-driven gestures.",
+    architecture: [
+      "PYTHON SOURCE",
+      "BOUNDED AST SCAN",
+      "PROJECT GRAPH",
+      "EXPLORER CONTROLLER",
+      "TERMINAL VIEW",
+      "GESTURE / KEYBOARD INPUT",
+    ],
+    engineeringDecisions: [
+      "Analyze source without importing or executing the inspected project",
+      "Bound scans with directory exclusions and file, byte, and definition limits",
+      "Separate project analysis, graph modeling, navigation, and terminal rendering",
+      "Keep keyboard demo and camera-driven gesture input as distinct modes",
+    ],
+    technologies: ["Python", "AST", "OpenCV", "MediaPipe", "CLI"],
+    evidence: [
+      "Repository available",
+      "Linux user-level installer",
+      "Automated tests for analysis, navigation, and gesture handling",
+      "3 interface screenshots",
+    ],
+    repository: "https://github.com/AdolfMacro/VisiCLI",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "CODE EXPLORER",
+    depth: "064",
+    depthStatus: "AST SCAN",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "VisiCLI's project map, terminal navigation, and visual interface for exploring Python code structure.",
+    screenshots: [
+      { src: visicli1, alt: "VisiCLI project explorer showing a navigable map of Python code structure" },
+      { src: visicli2, alt: "VisiCLI terminal interface with project hierarchy and gesture input" },
+      { src: visicli3, alt: "VisiCLI project visualization showing code elements as terminal cards" },
+    ],
+    priority: 6,
   },
 ];
 
