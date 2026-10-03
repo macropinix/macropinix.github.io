@@ -1,43 +1,57 @@
-<section class="cta">
-  <div class="container">
-    <div class="cta-inner">
-      <h2 class="cta-title">Start a Project</h2>
-      <p class="cta-description">
-        Have a technical problem worth solving? Let's discuss what is actually needed.
+<section class="section contact" id="contact" aria-labelledby="contact-title">
+  <div class="container contact__inner">
+    <div>
+      <p class="section-index">05 / CONTACT</p>
+      <h2 class="section-title" id="contact-title">Have a problem worth building around?</h2>
+      <p class="section-intro">
+        Tell me what you are trying to solve. We can start with the problem.
       </p>
-      <a href="/contact" class="btn btn-primary btn-lg">Start a Project</a>
+    </div>
+    <div class="contact__actions">
+      <a class="btn btn-primary" href="mailto:m4nikamran@gmail.com">
+        Send an email <span aria-hidden="true">↗</span>
+      </a>
+      <a class="text-link" href="https://github.com/AdolfMacro" target="_blank" rel="noopener noreferrer">
+        GitHub <span class="text-link__arrow" aria-hidden="true">↗</span>
+        <span class="visually-hidden">(opens in a new tab)</span>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta {
-    padding: var(--space-9) 0;
-    border-top: 1px solid var(--border-subtle);
+  .contact__inner {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-6);
   }
 
-  .cta-inner {
-    max-width: 40rem;
-    text-align: center;
-    margin: 0 auto;
+  .contact .section-title {
+    max-width: 17ch;
   }
 
-  .cta-title {
-    font-family: var(--font-sans);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: var(--space-3);
+  .contact__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-shrink: 0;
   }
 
-  .cta-description {
-    font-size: 1rem;
-    color: var(--text-muted);
-    margin-bottom: var(--space-6);
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
   }
 
-  .btn-lg {
-    padding: var(--space-4) var(--space-7);
-    font-size: 1rem;
+  @media (max-width: 760px) {
+    .contact__inner,
+    .contact__actions {
+      align-items: flex-start;
+      flex-direction: column;
+    }
   }
 </style>

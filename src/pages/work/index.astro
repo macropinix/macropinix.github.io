@@ -2,39 +2,29 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Navigation from "../../components/Navigation.astro";
 import Footer from "../../components/Footer.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
 import { featuredProjects } from "../../data/projects";
 ---
 
-<BaseLayout title="Work" description="Selected technical projects by Mani Kamran." depth="071" depthStatus="SYSTEM SCAN">
+<BaseLayout
+  title="Work — Macropinix"
+  description="Open-source engineering projects by Mani Kamran, with project details, screenshots, and source repositories."
+>
   <Navigation />
-  <main>
+  <main id="main-content">
     <section class="work-page">
       <div class="container">
-        <h1 class="work-page-title">Work</h1>
+        <p class="section-index">MACROPINIX / PROJECT INDEX</p>
+        <h1 class="work-page-title">Work, in the open.</h1>
         <p class="work-page-intro">
-          Systems that have been built, tested, and made public.
+          Working software, real interfaces, and the engineering decisions behind them.
+          Inspect a project or follow its source.
         </p>
 
         <div class="work-page-list">
-          {featuredProjects.map((project) => (
-              <a href={`/work/${project.slug}`} class="project-card">
-                <div class="project-header">
-                  <div class="project-meta">
-                    <span class="project-name">{project.name}</span>
-                    <span class="project-tagline">{project.tagline}</span>
-                  </div>
-                  <span class="project-arrow">INSPECT →</span>
-                </div>
-                <p class="project-description">{project.description}</p>
-                <div class="project-footer">
-                  <ul class="project-tech" role="list">
-                    {project.technologies.map((tech) => (
-                      <li>{tech}</li>
-                    ))}
-                  </ul>
-                </div>
-              </a>
-            ))}
+          {featuredProjects.map((project, index) => (
+            <ProjectCard project={project} index={index + 1} featured={index === 0} />
+          ))}
         </div>
       </div>
     </section>
@@ -44,112 +34,23 @@ import { featuredProjects } from "../../data/projects";
 
 <style>
   .work-page {
-    padding: calc(var(--nav-height) + var(--space-9)) 0 var(--space-9);
+    min-height: 75vh;
+    padding: calc(var(--nav-height) + var(--space-8)) 0 var(--space-8);
   }
 
   .work-page-title {
-    font-family: var(--font-sans);
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: var(--space-3);
+    margin-top: var(--space-3);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    line-height: 1.05;
   }
 
   .work-page-intro {
-    font-size: 1rem;
-    color: var(--text-muted);
+    max-width: 39rem;
+    margin-top: var(--space-4);
     margin-bottom: var(--space-7);
-    max-width: 32rem;
-  }
-
-  .work-page-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .project-card {
-    display: block;
-    padding: var(--space-6);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--bg-layer);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease;
-  }
-
-  .project-card:hover {
-    border-color: var(--blue-deep);
-    background: var(--bg-elevated);
-  }
-
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--space-3);
-  }
-
-  .project-meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .project-name {
-    font-family: var(--font-sans);
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: 0.05em;
-  }
-
-  .project-tagline {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
     color: var(--text-muted);
-    letter-spacing: 0.05em;
-  }
-
-  .project-arrow {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    color: var(--signal);
-    opacity: 0.7;
-    transition: opacity var(--duration-fast) ease;
-  }
-
-  .project-card:hover .project-arrow {
-    opacity: 1;
-  }
-
-  .project-description {
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: var(--space-4);
-    max-width: 48rem;
-  }
-
-  .project-footer {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .project-tech {
-    display: flex;
-    gap: var(--space-2);
-  }
-
-  .project-tech li {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    color: var(--text-muted);
-    padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--bg);
+    font-size: 1.0625rem;
   }
 </style>

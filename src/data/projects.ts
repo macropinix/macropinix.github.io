@@ -10,9 +10,13 @@ import patogh1 from "../assets/shots/patogh-1.webp";
 import patogh2 from "../assets/shots/patogh-2.webp";
 import patogh3 from "../assets/shots/patogh-3.webp";
 import patogh4 from "../assets/shots/patogh-4.webp";
-import visicli1 from "../assets/shots/visicli-1.png";
-import visicli2 from "../assets/shots/visicli-2.png";
-import visicli3 from "../assets/shots/visicli-3.png";
+import scriptarcher2 from "../assets/shots/scriptarcher-2.webp";
+import scriptarcher3 from "../assets/shots/scriptarcher-3.webp";
+import scriptarcher4 from "../assets/shots/scriptarcher-4.webp";
+import visicli1 from "../assets/shots/visicli-1.webp";
+import visicli2 from "../assets/shots/visicli-2.webp";
+import visicli3 from "../assets/shots/visicli-3.webp";
+import visigui1 from "../assets/shots/visigui-1.webp";
 
 export interface Screenshot {
   src: ImageMetadata;
@@ -36,9 +40,6 @@ export interface Project {
   status: string;
   source: string;
   system: string;
-  /** Decorative readout in the corner of the detail page. */
-  depth: string;
-  depthStatus: string;
   /** Optional screenshot gallery; projects without captures omit it. */
   screenshots: Screenshot[];
   showcaseTitle: string;
@@ -77,8 +78,6 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "MULTI-PROVIDER",
-    depth: "112",
-    depthStatus: "DATA STREAM",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "The extraction map and Data Manager, showing how discovered sources are traced, normalised and validated.",
@@ -121,8 +120,6 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "NETWORK",
-    depth: "089",
-    depthStatus: "NETWORK SCAN",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "Network vision dashboards showing traffic visualisation, interface discovery and the analysis panels.",
@@ -162,8 +159,6 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "TOOLING",
-    depth: "034",
-    depthStatus: "PROCESS",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "The Phoenix project interface, showing the tool-building and installation workflow.",
@@ -210,8 +205,6 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "ACCOUNTING",
-    depth: "151",
-    depthStatus: "IRC LINKED",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "PATOGH café accounting and POS interfaces covering the dashboard, sales entry, inventory management, and reporting views.",
@@ -256,13 +249,14 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "SECURITY",
-    depth: "077",
-    depthStatus: "SYSTEM ACTIVE",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "The ScriptArcher toolkit interface, showing the security and network utility modules.",
     screenshots: [
-      { src: scriptarcher1, alt: "ScriptArcher toolkit interface showing the security and pentesting utilities" },
+      { src: scriptarcher1, alt: "ScriptArcher terminal showing its network and security utility menu" },
+      { src: scriptarcher2, alt: "ScriptArcher terminal showing its network scanning options" },
+      { src: scriptarcher3, alt: "ScriptArcher terminal showing a DDoS module menu" },
+      { src: scriptarcher4, alt: "ScriptArcher terminal showing wireless network inspection results" },
     ],
     priority: 4,
   },
@@ -301,8 +295,6 @@ export const projects: Project[] = [
     status: "PUBLIC",
     source: "PYTHON",
     system: "CODE EXPLORER",
-    depth: "064",
-    depthStatus: "AST SCAN",
     showcaseTitle: "INTERFACE",
     showcaseDescription:
       "VisiCLI's project map, terminal navigation, and visual interface for exploring Python code structure.",
@@ -312,6 +304,53 @@ export const projects: Project[] = [
       { src: visicli3, alt: "VisiCLI project visualization showing code elements as terminal cards" },
     ],
     priority: 6,
+  },
+  {
+    slug: "visigui",
+    name: "VisiGUI",
+    tagline: "Gesture-Driven Python Project Explorer",
+    description:
+      "An interactive Python project explorer that combines static code analysis, hand-gesture controls, and a procedural 3D world in a single desktop application.",
+    problem:
+      "Understanding a Python codebase and navigating interactive visual environments can require separate tools, while importing inspected code may trigger unintended side effects.",
+    approach:
+      "Reuse VisiCLI's static analysis to build a ProjectGraph without importing target code, then route camera-driven gestures through a context-aware controller to the Qt explorer and a separate OpenGL world.",
+    architecture: [
+      "PYTHON SOURCE",
+      "STATIC ANALYSIS",
+      "PROJECT GRAPH",
+      "CAMERA & GESTURE INPUT",
+      "INTERACTION CONTROLLER",
+      "QT EXPLORER + 3D WORLD",
+    ],
+    engineeringDecisions: [
+      "Builds on VisiCLI's project-analysis concepts and ProjectGraph",
+      "Inspects Python source without importing or executing the target project",
+      "Routes gesture intent through a controller before application actions",
+      "Keeps the project explorer and generative 3D world independent",
+    ],
+    technologies: ["Python", "PyQt6", "OpenGL", "MediaPipe", "OpenCV"],
+    evidence: [
+      "Repository available",
+      "Static Python project analysis",
+      "Gesture-controlled navigation",
+      "Automated test suite",
+      "Interactive OpenGL environment",
+    ],
+    repository: "https://github.com/AdolfMacro/VisiGUI",
+    status: "PUBLIC",
+    source: "PYTHON",
+    system: "GUI + 3D WORLD",
+    showcaseTitle: "INTERFACE",
+    showcaseDescription:
+      "VisiGUI's gesture-driven code explorer and procedural 3D world, combining structured Python project navigation with camera-based interaction.",
+    screenshots: [
+      {
+        src: visigui1,
+        alt: "VisiGUI graphical Python project explorer and interactive 3D world",
+      },
+    ],
+    priority: 7,
   },
 ];
 

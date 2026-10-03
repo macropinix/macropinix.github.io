@@ -1,44 +1,51 @@
 ---
 const navLinks = [
   { href: "/work", label: "Work" },
-  { href: "/services", label: "Services" },
+  { href: "/#lab", label: "Lab" },
+  { href: "/#engineering", label: "Engineering" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
-const cta = { href: "/contact", label: "Start a Project" };
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
 <header class="site-header">
-  <nav class="nav container">
-    <a href="/" class="nav-brand">
-      <span class="nav-logo-wrap">
-        <img
-          src="/MLogo.webp"
-          alt="Macropinix"
-          class="nav-logo"
-          width="632"
-          height="577"
-          decoding="async"
-        />
-      </span>
-      <span class="nav-depth">DEPTH 034</span>
+  <nav class="nav container" aria-label="Primary navigation">
+    <a href="/" class="nav-brand" aria-label="Macropinix home">
+      <img src="/MLogo.webp" alt="" class="nav-logo" width="632" height="577" decoding="async" />
+      <span>MACROPINIX</span>
     </a>
 
-    <ul class="nav-links" id="nav-links" role="list">
+    <ul class="nav-links" id="nav-links">
       {navLinks.map((link) => (
         <li>
-          <a href={link.href} class="nav-link">{link.label}</a>
+          <a
+            href={link.href}
+            class="nav-link"
+            aria-current={
+              (link.href === "/work" && currentPath.startsWith("/work")) ||
+              link.href === currentPath
+                ? "page"
+                : undefined
+            }
+          >
+            {link.label}
+          </a>
         </li>
       ))}
       <li>
-        <a href={cta.href} class="nav-cta">{cta.label}</a>
+        <a href="https://github.com/AdolfMacro" class="nav-github" target="_blank" rel="noopener noreferrer">
+          GitHub <span aria-hidden="true">↗</span>
+          <span class="visually-hidden">(opens in a new tab)</span>
+        </a>
       </li>
     </ul>
 
     <button
       class="nav-toggle"
-      aria-label="Toggle navigation"
+      type="button"
+      aria-label="Toggle navigation menu"
       aria-controls="nav-links"
       aria-expanded="false"
     >
@@ -51,139 +58,121 @@ const cta = { href: "/contact", label: "Start a Project" };
 <style>
   .site-header {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto;
     z-index: 100;
     height: var(--nav-height);
-    background: rgba(5, 8, 13, 0.85);
-    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-subtle);
+    background: rgba(11, 15, 20, 0.94);
   }
 
   .nav {
     display: flex;
+    height: 100%;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--space-6);
   }
 
   .nav-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    line-height: 1;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .nav-logo-wrap {
     display: inline-flex;
+    min-height: 44px;
     align-items: center;
-    justify-content: center;
-    background: var(--bg-layer);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: var(--space-1);
-    line-height: 0;
+    gap: var(--space-2);
+    color: var(--text);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.11em;
   }
 
   .nav-logo {
+    width: 28px;
     height: 28px;
-    width: auto;
-    display: block;
-  }
-  .nav-depth {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+    object-fit: contain;
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: var(--space-6);
+    gap: clamp(var(--space-3), 3vw, var(--space-5));
   }
 
-  .nav-link {
-    font-size: 0.8125rem;
-    font-weight: 500;
+  .nav-link,
+  .nav-github {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
     color: var(--text-muted);
+    font-size: 0.8125rem;
     transition: color var(--duration-fast) ease;
-    position: relative;
-  }
-
-  .nav-link::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--signal);
-    transition: width var(--duration-normal) ease;
   }
 
   .nav-link:hover,
-  .nav-link:focus-visible {
+  .nav-github:hover,
+  .nav-link[aria-current="page"] {
     color: var(--text);
   }
 
-  .nav-link:hover::after,
-  .nav-link:focus-visible::after {
-    width: 100%;
+  .nav-link[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--signal);
+    text-underline-offset: 6px;
   }
 
-  .nav-cta {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-2) var(--space-4);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--bg);
-    background: var(--signal);
-    border-radius: var(--radius-md);
-    transition: background var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
-  }
-
-  .nav-cta:hover,
-  .nav-cta:focus-visible {
-    background: #00e68a;
-    box-shadow: 0 0 20px var(--signal-glow);
+  .nav-github {
+    gap: var(--space-1);
+    color: var(--signal);
   }
 
   .nav-toggle {
     display: none;
+    width: 44px;
+    height: 44px;
     flex-direction: column;
-    gap: 5px;
-    padding: var(--space-2);
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    cursor: pointer;
   }
 
   .nav-toggle-line {
-    display: block;
-    width: 20px;
-    height: 1.5px;
+    width: 18px;
+    height: 1px;
     background: var(--text);
-    transition: transform var(--duration-normal) ease, opacity var(--duration-fast) ease;
+    transition: transform var(--duration-fast) ease;
   }
 
-  @media (max-width: 768px) {
+  .nav-toggle[aria-expanded="true"] .nav-toggle-line:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-line:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 800px) {
     .nav-links {
-      display: none;
       position: absolute;
       top: var(--nav-height);
       left: 0;
       right: 0;
+      display: none;
+      align-items: stretch;
       flex-direction: column;
-      align-items: flex-start;
       gap: 0;
-      padding: var(--space-4) var(--space-6);
-      background: var(--bg);
+      padding: var(--space-2) max(1rem, calc((100vw - var(--max-width)) / 2));
       border-bottom: 1px solid var(--border);
+      background: var(--bg);
     }
 
     .nav-links.is-open {
@@ -191,15 +180,12 @@ const cta = { href: "/contact", label: "Start a Project" };
     }
 
     .nav-link,
-    .nav-cta {
-      display: block;
-      width: 100%;
-      padding: var(--space-3) 0;
+    .nav-github {
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .nav-cta {
-      margin-top: var(--space-2);
-      text-align: center;
+    .nav-github {
+      border-bottom: 0;
     }
 
     .nav-toggle {
@@ -209,7 +195,7 @@ const cta = { href: "/contact", label: "Start a Project" };
 </style>
 
 <script>
-  const toggle = document.querySelector<HTMLElement>(".nav-toggle");
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
   const links = document.querySelector<HTMLElement>(".nav-links");
 
   if (toggle && links) {
@@ -219,26 +205,25 @@ const cta = { href: "/contact", label: "Start a Project" };
     };
 
     toggle.addEventListener("click", () => {
-      setOpen(!links.classList.contains("is-open"));
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
     });
 
-    // Escape closes the menu and returns focus to the control that opened it.
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && links.classList.contains("is-open")) {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
         setOpen(false);
         toggle.focus();
       }
     });
 
-    // A click outside the open menu dismisses it.
     document.addEventListener("click", (event) => {
       if (!links.classList.contains("is-open")) return;
-      const target = event.target as Node;
-      if (!links.contains(target) && !toggle.contains(target)) setOpen(false);
+      const target = event.target;
+      if (target instanceof Node && !links.contains(target) && !toggle.contains(target)) {
+        setOpen(false);
+      }
     });
 
-    // Rotating back to a wide viewport should not leave the menu stuck open.
-    window.matchMedia("(min-width: 769px)").addEventListener("change", (event) => {
+    window.matchMedia("(min-width: 801px)").addEventListener("change", (event) => {
       if (event.matches) setOpen(false);
     });
 

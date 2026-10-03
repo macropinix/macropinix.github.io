@@ -24,12 +24,10 @@ const { project, related } = Astro.props;
 <BaseLayout
   title={`${project.name} — ${project.tagline}`}
   description={project.description}
-  depth={project.depth}
-  depthStatus={project.depthStatus}
   type="article"
 >
   <Navigation />
-  <main>
+  <main id="main-content">
     <section class="project-hero">
       <div class="container">
         <div class="project-meta-bar">

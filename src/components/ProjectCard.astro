@@ -1,0 +1,224 @@
+---
+import { Image } from "astro:assets";
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  index: number;
+  featured?: boolean;
+}
+
+const { project, index, featured = false } = Astro.props;
+---
+
+<article class:list={["project-card", { "project-card--featured": featured }]}>
+  <a class="project-card__main" href={`/work/${project.slug}`}>
+    <div class="project-card__content">
+      <span class="project-card__index">{String(index).padStart(2, "0")} / PUBLIC WORK</span>
+      <h3 class="project-card__title">{project.name}</h3>
+      <p class="project-card__tagline">{project.tagline}</p>
+      <p class="project-card__problem">{project.problem}</p>
+      <span class="project-card__inspect">Inspect project <span aria-hidden="true">↗</span></span>
+    </div>
+
+    {
+      project.screenshots[0] && (
+        <div class="project-card__visual">
+          <Image
+            src={project.screenshots[0].src}
+            alt={project.screenshots[0].alt}
+            widths={[480, 720, 1080]}
+            sizes="(max-width: 760px) 100vw, (max-width: 1160px) 48vw, 540px"
+            loading={featured ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </div>
+      )
+    }
+  </a>
+
+  <div class="project-card__footer">
+    <ul class="project-card__tech" aria-label={`${project.name} technologies`}>
+      {project.technologies.map((technology) => <li>{technology}</li>)}
+    </ul>
+    <a href={project.repository} target="_blank" rel="noopener noreferrer" class="project-card__repo">
+      Repository <span aria-hidden="true">↗</span>
+      <span class="visually-hidden">(opens in a new tab)</span>
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--border);
+  }
+
+  .project-card:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-card__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.9fr);
+    align-items: center;
+    gap: clamp(var(--space-5), 6vw, var(--space-8));
+  }
+
+  .project-card__content {
+    padding-block: var(--space-3);
+  }
+
+  .project-card__index {
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .project-card__title {
+    margin-top: var(--space-3);
+    color: var(--text);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.15;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .project-card__tagline {
+    margin-top: var(--space-1);
+    color: var(--cyan);
+    font-size: 0.9375rem;
+  }
+
+  .project-card__problem {
+    max-width: 38rem;
+    margin-top: var(--space-4);
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .project-card__inspect {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    color: var(--signal);
+    font-size: 0.875rem;
+    font-weight: 550;
+  }
+
+  .project-card__visual {
+    display: grid;
+    min-height: 190px;
+    aspect-ratio: 16 / 10;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-layer);
+  }
+
+  .project-card__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform var(--duration-normal) ease;
+  }
+
+  .project-card__main:hover .project-card__title,
+  .project-card__main:focus-visible .project-card__title {
+    color: var(--signal);
+  }
+
+  .project-card__main:hover .project-card__visual img,
+  .project-card__main:focus-visible .project-card__visual img {
+    transform: scale(1.015);
+  }
+
+  .project-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+  }
+
+  .project-card__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project-card__tech li {
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .project-card__tech li + li::before {
+    content: "/";
+    margin-right: var(--space-2);
+    color: var(--border);
+  }
+
+  .project-card__repo {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .project-card__repo:hover {
+    color: var(--signal);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .project-card--featured {
+    padding-block: var(--space-6);
+  }
+
+  .project-card--featured .project-card__main {
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  }
+
+  .project-card--featured .project-card__visual {
+    min-height: 270px;
+  }
+
+  .project-card--featured .project-card__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  @media (max-width: 760px) {
+    .project-card__main,
+    .project-card--featured .project-card__main {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .project-card__content {
+      padding-top: var(--space-2);
+    }
+
+    .project-card__visual,
+    .project-card--featured .project-card__visual {
+      min-height: 0;
+    }
+  }
+</style>

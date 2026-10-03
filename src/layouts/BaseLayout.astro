@@ -8,28 +8,18 @@ interface Props {
   description?: string;
   canonical?: string;
   ogImage?: string;
-  depth?: string;
-  depthStatus?: string;
   type?: "website" | "article";
 }
 
 const {
   title,
-  description = "Python automation, web data extraction, Linux and network tooling by Mani Kamran.",
+  description = "Macropinix is an engineering body of work by Mani Kamran: practical software for data, systems, and interaction.",
   canonical,
   ogImage = "/og-image.png",
-  depth,
-  depthStatus,
   type = "website",
 } = Astro.props;
 
-// Derive the canonical URL from the route itself so a page can never
-// accidentally claim the site root as its own address. Astro.url already
-// carries the configured `site`, so this is the absolute URL of this page.
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE).href;
-
-// Social crawlers need an absolute URL and a raster format: a relative path
-// or an SVG will not render a preview card.
 const ogImageURL = new URL(ogImage, SITE).href;
 ---
 
@@ -41,18 +31,8 @@ const ogImageURL = new URL(ogImage, SITE).href;
     <link rel="icon" type="image/png" href="/macropinix-favicon.png" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0f14" />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- Fonts are linked in the head with a preconnect so the request starts
-         in parallel with the stylesheet. Loading them from CSS via @import
-         serialised the request behind the CSS fetch instead. Only the weights
-         actually used in the stylesheets are requested. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -65,149 +45,15 @@ const ogImageURL = new URL(ogImage, SITE).href;
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Macropinix — engineering beneath the surface" />
+    <meta property="og:image:alt" content="Macropinix — software built to be inspected." />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
   </head>
-  <body>
+  <body id="top">
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <slot />
-
-    <div class="scan-grid" aria-hidden="true">
-      <div class="scan-grid__lines"></div>
-      <div class="scan-grid__scan"></div>
-    </div>
-
-    {depth && (
-      <div class="fixed-indicator" aria-hidden="true">
-        <span class="fixed-indicator__depth">DEPTH {depth}</span>
-        <span class="fixed-indicator__status">{depthStatus || "SIGNAL ACTIVE"}</span>
-      </div>
-    )}
   </body>
 </html>
-
-<script>
-  // One observer for all decorative motion on the page.
-  //
-  // Two things are gated here:
-  //  - .radar-ring gets .is-live only while near the viewport, so only the
-  //    visible cards run a conic-gradient sweep. Off-screen ones are paused
-  //    and hidden, which costs nothing.
-  //  - the always-on decorations (hero logo, background scan line, sonar
-  //    pulses) get .is-animating on an ancestor while they are on screen.
-  //
-  // Without this, every animation on the page keeps running while the user
-  // reads a section that has nothing to do with them.
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const rings = Array.from(document.querySelectorAll<HTMLElement>(".radar-ring"));
-
-  // Stagger the arcs so a row of cards does not sweep in unison.
-  rings.forEach((ring, i) => {
-    ring.style.setProperty("--ring-offset", `${(i % 6) * 60}deg`);
-    ring.style.setProperty("--ring-delay", `${(i % 6) * -0.6}s`);
-  });
-
-  // Sections that own the always-on decorations.
-  const motionTargets = Array.from(
-    document.querySelectorAll<HTMLElement>(".hero, .scan-grid")
-  );
-
-  const liveRings = new Set<HTMLElement>();
-  const liveMotion = new Set<HTMLElement>();
-
-  const syncRings = () => {
-    for (const el of liveRings) el.style.setProperty("--ring-angle", `${(window.scrollY * 1.4).toFixed(1)}deg`);
-  };
-
-  let ticking = false;
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      ticking = false;
-      if (!reduced.matches) syncRings();
-    });
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (reduced.matches) return;
-      for (const entry of entries) {
-        const el = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          liveRings.add(el);
-          el.classList.add("is-live");
-        } else {
-          liveRings.delete(el);
-          el.classList.remove("is-live");
-        }
-      }
-      syncRings();
-    },
-    // A margin wide enough that an element is already live by the time it
-    // scrolls into view, so the sweep never appears to start from a standstill.
-    { rootMargin: "60% 0px" }
-  );
-
-  for (const ring of rings) observer.observe(ring);
-
-  // The always-on decorations are gated on the section that contains them.
-  const motionObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        const el = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          liveMotion.add(el);
-          el.classList.add("is-animating");
-        } else {
-          liveMotion.delete(el);
-          el.classList.remove("is-animating");
-        }
-      }
-    },
-    { rootMargin: "10% 0px" }
-  );
-  for (const el of motionTargets) motionObserver.observe(el);
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-</script>
-
-<style>
-  .fixed-indicator {
-    position: fixed;
-    bottom: var(--space-5);
-    right: var(--space-5);
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-1);
-    pointer-events: none;
-    font-family: var(--font-mono);
-  }
-
-  .fixed-indicator__depth {
-    font-size: 0.5625rem;
-    color: var(--signal);
-    opacity: 0.5;
-    letter-spacing: 0.1em;
-  }
-
-  .fixed-indicator__status {
-    font-size: 0.5625rem;
-    color: var(--text-dim);
-    opacity: 0.4;
-    letter-spacing: 0.1em;
-  }
-
-  @media (max-width: 768px) {
-    .fixed-indicator {
-      bottom: var(--space-3);
-      right: var(--space-3);
-    }
-  }
-</style>

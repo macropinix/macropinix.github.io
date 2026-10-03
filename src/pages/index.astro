@@ -2,33 +2,25 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navigation from "../components/Navigation.astro";
 import Hero from "../components/Hero.astro";
-import Value from "../components/Value.astro";
-import Services from "../components/Services.astro";
-import EngineeringPhilosophy from "../components/EngineeringPhilosophy.astro";
 import SelectedWork from "../components/SelectedWork.astro";
-import Evidence from "../components/Evidence.astro";
+import EngineeringAreas from "../components/EngineeringAreas.astro";
+import Lab from "../components/Lab.astro";
 import About from "../components/About.astro";
-import Workflow from "../components/Workflow.astro";
 import CTA from "../components/CTA.astro";
 import Footer from "../components/Footer.astro";
 ---
 
 <BaseLayout
-  title="Macropinix"
-  description="Python automation, web data extraction, Linux and network tooling by Mani Kamran."
-  depth="034"
-  depthStatus="SIGNAL DETECTED"
+  title="Macropinix — Software built to solve real problems"
+  description="Macropinix is an engineering body of work by Mani Kamran: practical software for data, systems, networks, and interaction."
 >
   <Navigation />
-  <main>
+  <main id="main-content">
     <Hero />
-    <Value />
-    <Services />
-    <EngineeringPhilosophy />
     <SelectedWork />
-    <Evidence />
+    <EngineeringAreas />
+    <Lab />
     <About />
-    <Workflow />
     <CTA />
   </main>
   <Footer />

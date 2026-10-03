@@ -1,0 +1,126 @@
+---
+const areas = [
+  {
+    number: "01",
+    title: "Data & automation",
+    focus: "Discovery · extraction · validation",
+    project: "EYE",
+    href: "/work/eye",
+  },
+  {
+    number: "02",
+    title: "Systems & networks",
+    focus: "Interfaces · traffic · analysis",
+    project: "EYEnv",
+    href: "/work/eyenv",
+  },
+  {
+    number: "03",
+    title: "Operational software",
+    focus: "Desktop · inventory · reporting",
+    project: "PATOGH",
+    href: "/work/patogh",
+  },
+  {
+    number: "04",
+    title: "Human interaction",
+    focus: "Project graphs · gestures · 3D",
+    project: "VisiGUI",
+    href: "/work/visigui",
+  },
+];
+---
+
+<section class="section areas" id="engineering" aria-labelledby="areas-title">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="section-index">02 / ENGINEERING AREAS</p>
+        <h2 class="section-title" id="areas-title">What the work is made of.</h2>
+        <p class="section-intro">
+          Each area points to a shipped project, not a self-assessed skill score.
+        </p>
+      </div>
+    </div>
+
+    <ol class="areas-list">
+      {areas.map((area) => (
+        <li class="area">
+          <span class="area__number">{area.number}</span>
+          <h3 class="area__title">{area.title}</h3>
+          <p class="area__focus">{area.focus}</p>
+          <a class="area__project" href={area.href}>
+            {area.project} <span aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .areas-list {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .area {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(10rem, 1fr) minmax(15rem, 1.3fr) minmax(6rem, auto);
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 82px;
+    border-top: 1px solid var(--border);
+  }
+
+  .area__number,
+  .area__focus {
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .area__title {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 550;
+  }
+
+  .area__project {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    color: var(--cyan);
+    font-size: 0.875rem;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .area__project:hover {
+    color: var(--signal);
+  }
+
+  @media (max-width: 720px) {
+    .area {
+      grid-template-columns: 2rem 1fr auto;
+      gap: var(--space-2) var(--space-3);
+      padding-block: var(--space-3);
+    }
+
+    .area__title {
+      grid-column: 2;
+    }
+
+    .area__focus {
+      grid-column: 2;
+      grid-row: 2;
+      font-size: 0.6875rem;
+    }
+
+    .area__project {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      white-space: nowrap;
+    }
+  }
+</style>

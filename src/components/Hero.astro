@@ -1,349 +1,181 @@
-<section class="hero">
+---
+import { Image } from "astro:assets";
+import heroScene from "../assets/hero-scene.webp";
+---
+
+<section class="hero" aria-labelledby="hero-title">
   <div class="container hero-inner">
-    <div class="hero-content">
-      <div class="hero-logo-parallax">
-        <img
-          src="/macropinix.webp"
-          alt="Macropinix"
-          class="hero-logo"
-          width="726"
-          height="421"
-          decoding="async"
-          fetchpriority="high"
-        />
-      </div>
-      <p class="hero-label">SIGNAL DETECTED</p>
-      <h1 class="hero-title">MACROPINIX</h1>
-      <p class="hero-tagline">Engineering beneath the surface.</p>
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow">MACROPINIX / ENGINEERING BODY OF WORK</p>
+      <h1 class="hero-title" id="hero-title">
+        I solve problems<br class="desktop-break" /> by building software.
+      </h1>
       <p class="hero-description">
-        Python systems, automation, data extraction and network tooling
-        for real technical problems.
+        Practical systems, tools, and interfaces—built around real problems and
+        shared with the evidence to inspect them.
       </p>
-
       <div class="hero-actions">
-        <a href="/contact" class="btn btn-primary">Start a Project</a>
-        <a href="/work" class="btn btn-secondary">Inspect the Work</a>
+        <a href="#work" class="btn btn-primary">Explore the work <span aria-hidden="true">↘</span></a>
+        <a href="https://github.com/AdolfMacro" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+          GitHub <span aria-hidden="true">↗</span>
+          <span class="visually-hidden">(opens in a new tab)</span>
+        </a>
       </div>
+      <ul class="hero-disciplines" aria-label="Engineering disciplines">
+        <li>Python</li>
+        <li>Linux</li>
+        <li>Networking</li>
+        <li>Automation</li>
+      </ul>
     </div>
-
-    <div class="hero-visual" aria-hidden="true">
-      <div class="signal-node">
-        <span class="signal-dot"></span>
-        <span class="signal-pulse"></span>
-      </div>
-      <div class="signal-trace">
-        <span class="trace-line"></span>
-      </div>
+    <div class="hero-mark" aria-hidden="true">
+      <Image
+        src={heroScene}
+        alt="A lone engineer working at a computer beneath a canopy of cables."
+        class="hero-image"
+        widths={[360, 540, 720]}
+        sizes="(max-width: 960px) 100vw, 360px"
+        fetchpriority="high"
+        decoding="async"
+      />
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100vh;
+    min-height: min(760px, 92svh);
     display: flex;
     align-items: center;
-    padding-top: var(--nav-height);
-    position: relative;
-    overflow: hidden;
+    padding-block: calc(var(--nav-height) + var(--space-7)) var(--space-8);
   }
 
   .hero-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-8);
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 0.44fr);
     align-items: center;
-    width: 100%;
-    padding-top: var(--space-9);
-    padding-bottom: var(--space-9);
+    gap: clamp(var(--space-6), 8vw, var(--space-9));
   }
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
+  .hero-copy {
+    max-width: 760px;
   }
 
-  .hero-label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    color: var(--signal);
-    margin-bottom: var(--space-4);
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  /* Parallax wrapper. The scroll-linked transform lives here, separate from
-     the breathing animation on .hero-logo, so the two never overwrite
-     each other's transform. */
-  .hero-logo-parallax {
-    width: clamp(220px, 28vw, 360px);
+  .hero-eyebrow {
     margin-bottom: var(--space-5);
-    will-change: transform;
-    transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0);
-  }
-
-  @media (max-width: 768px) {
-    .hero-logo-parallax {
-      width: clamp(180px, 55vw, 260px);
-    }
-  }
-
-  .hero-logo {
-    width: 100%;
-    height: auto;
-    display: block;
-    /* Transform/opacity only, so the animation stays on the compositor and
-       never triggers layout or repaint. */
-    animation: signal-breathe 5s ease-in-out infinite;
-  }
-
-  /* Matches the sonar/signal language already used by the hero visuals:
-     the mark surfaces, holds, and dims again, like a repeating ping. */
-  @keyframes signal-breathe {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 0.92;
-      filter: drop-shadow(0 0 6px rgba(0, 255, 153, 0.25));
-    }
-    50% {
-      transform: translate3d(0, -3px, 0) scale(1.015);
-      opacity: 1;
-      filter: drop-shadow(0 0 18px rgba(0, 255, 153, 0.55));
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-logo {
-      animation: none;
-    }
-
-    .hero-logo-parallax {
-      transform: none;
-    }
-  }
-
-  .hero-label::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--signal);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--signal-glow);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.4;
-    }
   }
 
   .hero-title {
-    font-family: var(--font-sans);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    max-width: none;
     color: var(--text);
-    margin-bottom: var(--space-4);
-  }
-
-  .hero-tagline {
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 400;
-    color: var(--text-muted);
-    margin-bottom: var(--space-5);
-    max-width: 32rem;
+    font-size: clamp(3rem, 5.6vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.075em;
+    line-height: 0.99;
   }
 
   .hero-description {
-    font-size: 0.9375rem;
+    max-width: 38rem;
+    margin-top: var(--space-5);
     color: var(--text-muted);
+    font-size: clamp(1rem, 1.7vw, 1.1875rem);
     line-height: 1.7;
-    margin-bottom: var(--space-7);
-    max-width: 28rem;
   }
 
   .hero-actions {
     display: flex;
-    gap: var(--space-3);
     flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
   }
 
-  .hero-visual {
-    position: relative;
-    height: 400px;
+  .hero-disciplines {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-7);
   }
 
-  .signal-node {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .hero-disciplines li {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
   }
 
-  .signal-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--signal);
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--signal-glow), 0 0 40px var(--signal-dim);
-    position: relative;
-    z-index: 2;
+  .hero-mark {
+    width: min(100%, 300px);
+    justify-self: end;
   }
 
-  .signal-pulse {
+  .hero-image {
+    width: 100%;
+    aspect-ratio: 816 / 669;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    object-fit: cover;
+  }
+
+  .visually-hidden {
     position: absolute;
-    inset: 0;
-    border: 1px solid var(--signal-dim);
-    border-radius: 50%;
-    animation: signal-ring 3s ease-out infinite;
-  }
-
-  .signal-pulse:nth-child(2) {
-    animation-delay: 1s;
-  }
-
-  .signal-pulse:nth-child(3) {
-    animation-delay: 2s;
-  }
-
-  @keyframes signal-ring {
-    0% {
-      transform: scale(0.3);
-      opacity: 0.8;
-    }
-    100% {
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
-
-  .signal-trace {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 300px;
+    width: 1px;
     height: 1px;
-    transform: translate(-50%, -50%);
+    padding: 0;
+    margin: -1px;
     overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
-  .trace-line {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, var(--signal), transparent);
-    opacity: 0.3;
-    animation: trace-sweep 4s ease-in-out infinite;
-  }
-
-  @keyframes trace-sweep {
-    0%,
-    100% {
-      transform: translateX(-100%);
+  @media (max-width: 960px) {
+    .hero {
+      min-height: min(700px, 92svh);
+      padding-block: calc(var(--nav-height) + var(--space-4)) var(--space-4);
     }
-    50% {
-      transform: translateX(100%);
-    }
-  }
 
-  @media (max-width: 900px) {
     .hero-inner {
       grid-template-columns: 1fr;
-      text-align: center;
+      gap: var(--space-4);
     }
 
-    .hero-description {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero-actions {
-      justify-content: center;
-    }
-
-    .hero-visual {
+    .hero-mark {
       display: none;
     }
 
-    .hero-label {
-      justify-content: center;
+    .hero-title {
+      max-width: 20ch;
+      font-size: clamp(2.75rem, 7vw, 3.75rem);
+    }
+
+    .hero-eyebrow {
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-description {
+      margin-top: var(--space-4);
+    }
+
+    .hero-actions {
+      margin-top: var(--space-5);
+    }
+
+    .hero-disciplines {
+      margin-top: var(--space-5);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .desktop-break {
+      display: none;
     }
   }
 </style>
-
-<script>
-  // Scroll-linked parallax. The mark sweeps to the right and down along a
-  // shallow arc, and returns to its exact start position when scrolling back
-  // up, because progress is always recomputed from the absolute scroll offset
-  // rather than accumulated. Progress is clamped, so once the mark has left
-  // the viewport it holds at the end of its travel instead of running away.
-  //
-  // The path bows upward before it settles: the vertical leg is a net downward
-  // drift with a sine hump subtracted from it, so the mark lifts to a crest
-  // partway through and then curves down into the diagonal. That crest is what
-  // makes it read as a swoosh rather than a straight slide.
-  const MAX_TRAVEL_X_PX = 190;
-  const DRIFT_Y_PX = 100;
-  const CREST_Y_PX = 42;
-
-  const target = document.querySelector<HTMLElement>(".hero-logo-parallax");
-  if (target) {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const apply = () => {
-      if (reduced.matches) {
-        target.style.removeProperty("--parallax-y");
-        target.style.removeProperty("--parallax-x");
-        return;
-      }
-      // Distance over which the logo completes its travel.
-      const range = Math.max(target.offsetHeight * 2, window.innerHeight * 0.6);
-      const progress = Math.min(Math.max(window.scrollY / range, 0), 1);
-      // Slight ease-out so the start of the scroll feels unhurried and the
-      // movement settles rather than snapping to the end.
-      const eased = 1 - Math.pow(1 - progress, 1.6);
-      // On narrow screens the mark is centred and there is no room to travel
-      // sideways, so the horizontal leg is scaled down to avoid overflow.
-      const room = Math.max(0, window.innerWidth - target.offsetWidth - 32);
-      const travelX = Math.min(MAX_TRAVEL_X_PX, room);
-      // Net downward drift, minus a sine hump that peaks mid-flight. The mark
-      // therefore rises first, crests, then curves down into place. Both terms
-      // are zero at eased=0, so the mark still starts exactly where it sits.
-      const hump = Math.sin(Math.PI * eased);
-      const y = DRIFT_Y_PX * eased - CREST_Y_PX * hump;
-      target.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
-      target.style.setProperty("--parallax-x", `${(eased * travelX).toFixed(2)}px`);
-    };
-
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        apply();
-      });
-    };
-
-    apply();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    reduced.addEventListener("change", onScroll);
-  }
-</script>

@@ -1,26 +1,22 @@
 :root {
-  --bg: #05080D;
-  --bg-deep: #030508;
-  --bg-layer: #081019;
-  --bg-elevated: #0C1622;
-
-  --text: #E7EDF2;
-  --text-muted: #8D9AA6;
-  --text-dim: #4A5568;
-
-  --signal: #00FF99;
-  --signal-dim: rgba(0, 255, 153, 0.15);
-  --signal-glow: rgba(0, 255, 153, 0.3);
-
-  --blue-deep: #142733;
-  --blue-glow: rgba(30, 58, 95, 0.4);
-
-  --border: #10202B;
-  --border-subtle: #0A1520;
-
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-
+  color-scheme: dark;
+  --bg: #0b0f14;
+  --bg-deep: #080b10;
+  --bg-layer: #111821;
+  --bg-elevated: #18222d;
+  --text: #f2f4f6;
+  --text-muted: #a0aab4;
+  --text-dim: #75818d;
+  --signal: #f4b942;
+  --signal-dim: rgba(244, 185, 66, 0.14);
+  --signal-glow: rgba(244, 185, 66, 0.2);
+  --cyan: #8fc8df;
+  --blue-deep: #385263;
+  --blue-glow: rgba(143, 200, 223, 0.12);
+  --border: #27323d;
+  --border-subtle: #1b252f;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -28,49 +24,46 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: 4rem;
-  --space-9: 6rem;
-
-  --radius-sm: 2px;
-  --radius-md: 4px;
-
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
-
-  --max-width: 1200px;
-  --nav-height: 64px;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+  --radius-sm: 3px;
+  --radius-md: 8px;
+  --duration-fast: 160ms;
+  --duration-normal: 240ms;
+  --max-width: 1160px;
+  --nav-height: 72px;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--space-4));
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg);
 }
 
 body {
-  position: relative;
-  isolation: isolate;
-  background-color: var(--bg);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -35%, rgba(143, 200, 223, 0.055), transparent 56%),
+    var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 ::selection {
-  background-color: var(--signal-dim);
-  color: var(--signal);
+  background: var(--signal);
+  color: var(--bg);
 }
 
 a {
@@ -79,37 +72,31 @@ a {
 }
 
 img {
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
 }
 
 button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
   color: inherit;
-}
-
-input,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  background: transparent;
-  border: none;
-  outline: none;
 }
 
 ul,
 ol {
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
 :focus-visible {
-  outline: 1px solid var(--signal);
-  outline-offset: 2px;
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -120,6 +107,7 @@ ol {
   *,
   *::before,
   *::after {
+    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -127,230 +115,135 @@ ol {
 }
 
 .container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--space-6);
+  width: min(100% - 3rem, var(--max-width));
+  margin-inline: auto;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 var(--space-4);
-  }
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 200;
+  padding: var(--space-2) var(--space-4);
+  transform: translateY(-180%);
+  border-radius: var(--radius-sm);
+  background: var(--signal);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.section {
+  padding-block: clamp(4rem, 9vw, 7rem);
+  border-top: 1px solid var(--border-subtle);
+  scroll-margin-top: var(--nav-height);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.section-index,
+.eyebrow,
+.mono-label {
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  margin-top: var(--space-2);
+  color: var(--text);
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.section-intro {
+  max-width: 38rem;
+  margin-top: var(--space-3);
+  color: var(--text-muted);
+}
+
+.text-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--signal);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  transition: color var(--duration-fast) ease;
+}
+
+.text-link:hover {
+  color: #ffd777;
+}
+
+.text-link__arrow {
+  transition: transform var(--duration-fast) ease;
+}
+
+.text-link:hover .text-link__arrow {
+  transform: translateX(3px);
 }
 
 .btn {
   display: inline-flex;
+  min-height: 46px;
   align-items: center;
   justify-content: center;
+  gap: var(--space-2);
   padding: var(--space-3) var(--space-5);
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: var(--radius-md);
-  transition: all var(--duration-fast) ease;
-  white-space: nowrap;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition:
+    color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
 }
 
 .btn-primary {
   background: var(--signal);
-  color: var(--bg);
+  color: #17130b;
 }
 
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background: #00e68a;
-  box-shadow: 0 0 24px var(--signal-glow);
+.btn-primary:hover {
+  background: #ffd777;
 }
 
 .btn-secondary {
-  border: 1px solid var(--border);
-  color: var(--text);
+  border-color: var(--border);
   background: transparent;
+  color: var(--text);
 }
 
-.btn-secondary:hover,
-.btn-secondary:focus-visible {
-  border-color: var(--text-muted);
+.btn-secondary:hover {
+  border-color: var(--cyan);
   background: var(--bg-layer);
 }
 
-.btn-lg {
-  padding: var(--space-4) var(--space-7);
-  font-size: 1rem;
-}
-
-/* Decorative background layer. Sits behind all page content so it never
-   draws over images, cards, or text. */
-.scan-grid {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.scan-grid__lines {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
-  background-size: 80px 80px;
-  opacity: 0.3;
-}
-
-.scan-grid__scan {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(to bottom, transparent, var(--signal-dim), transparent);
-  opacity: 0.15;
-  animation: scan 8s linear infinite;
-}
-
-@keyframes scan {
-  0% {
-    top: -10%;
+@media (max-width: 640px) {
+  .container {
+    width: min(100% - 2rem, var(--max-width));
   }
-  100% {
-    top: 110%;
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .scan-grid__scan {
-    animation: none;
-    display: none;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Radar ring
-   A single neon arc that travels around the edge of a card like a radar
-   sweep. The arc angle is driven by the page scroll position rather than by
-   a timer, so the sweep advances exactly as the user scrolls and freezes
-   when they stop. Each card is offset by --ring-offset so the arcs do not
-   pulse in lockstep.
-   --------------------------------------------------------------------------- */
-
-@property --ring-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@property --ring-time {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@property --ring-sweep {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 128deg;
-}
-
-.radar-ring {
-  position: relative;
-}
-
-.radar-ring::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(
-    from calc(
-      var(--ring-angle, 0deg) + var(--ring-time, 0deg) + var(--ring-offset, 0deg)
-    ),
-    transparent 0deg,
-    transparent var(--ring-sweep),
-    var(--signal-glow) calc(var(--ring-sweep) - 26deg),
-    var(--signal) var(--ring-sweep),
-    #ffffff calc(var(--ring-sweep) + 3deg),
-    var(--signal) calc(var(--ring-sweep) + 9deg),
-    var(--signal-glow) calc(var(--ring-sweep) + 30deg),
-    transparent calc(var(--ring-sweep) + 62deg),
-    transparent 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.8;
-  /* Single continuous sweep. The earlier flicker keyframes were dropped:
-     they forced an extra opacity repaint every frame for no visual gain. */
-  animation: ring-spin 7s linear infinite;
-  animation-delay: var(--ring-delay, 0s);
-}
-
-@keyframes ring-spin {
-  from {
-    --ring-time: 0deg;
-  }
-  to {
-    --ring-time: 360deg;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .radar-ring::after {
-    animation: none;
-    opacity: 0.4;
-  }
-}
-
-/* Rings only animate while the card is near the viewport. Off-screen cards
-   get no animation at all, so a long page does not keep hidden conic
-   gradients running. Applied by the scroll driver in BaseLayout. */
-.radar-ring:not(.is-live)::after {
-  animation-play-state: paused;
-  opacity: 0;
-}
-
-/* ---------------------------------------------------------------------------
-   Off-screen pausing
-
-   The decorative animations below are cheap on their own but run forever,
-   including while the user reads a completely different part of the page.
-   Each is paused by default and only resumed while its section is on screen,
-   driven by the IntersectionObserver in BaseLayout. A paused animation costs
-   nothing, so the parts of the page the user cannot see cost nothing either.
-   --------------------------------------------------------------------------- */
-
-/* The !important is required: the `animation` shorthand in each component's
-   scoped style resets animation-play-state back to `running`, and those
-   hashed component selectors outrank a plain class here. */
-.scan-grid__scan,
-.hero-logo,
-.signal-pulse,
-.trace-line {
-  animation-play-state: paused !important;
-}
-
-.is-animating .scan-grid__scan,
-.is-animating .hero-logo,
-.is-animating .signal-pulse,
-.is-animating .trace-line {
-  animation-play-state: running !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scan-grid__scan,
-  .hero-logo,
-  .signal-pulse,
-  .trace-line {
-    animation: none;
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-3);
   }
 }

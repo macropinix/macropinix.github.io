@@ -1,7 +1,7 @@
 # macropinix.github.io
 
-Portfolio site for **Macropinix** — Python automation, data extraction, and
-Linux / network tooling by Mani Kamran.
+Engineering portfolio for **Macropinix** — practical software for data,
+systems, networks, and interaction by Mani Kamran.
 
 Built with [Astro](https://astro.build). Fully static, deployed to GitHub
 Pages.
@@ -51,8 +51,7 @@ optimised and served as responsive WebP automatically.
   accidentally claim the site root.
 - The social preview image must be a raster format at an absolute URL;
   `public/og-image.png` is 1200×630.
-- Decorative animation is gated by an `IntersectionObserver`: the radar ring on
-  the Selected Work cards and the always-on background motion only run while
-  their section is on screen. `prefers-reduced-motion` disables both.
+- The interface uses a restrained, CSS-only visual system and respects
+  `prefers-reduced-motion`; there are no animation or font-service dependencies.
 - Images use `astro:assets` (`<Image>`), which outputs `srcset` variants and
   explicit dimensions to avoid layout shift.

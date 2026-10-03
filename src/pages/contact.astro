@@ -4,34 +4,20 @@ import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 ---
 
-<BaseLayout title="Contact" description="Get in touch about your project." depth="128" depthStatus="CONNECTION READY">
+<BaseLayout title="Contact — Macropinix" description="Get in touch with Mani Kamran about a technical project.">
   <Navigation />
-  <main>
+  <main id="main-content">
     <section class="contact">
       <div class="container">
         <div class="contact-inner">
           <div class="contact-header">
-            <p class="contact-label">ESTABLISH CONNECTION</p>
-            <h1 class="contact-title">Start a Project</h1>
+            <p class="contact-label">CONTACT</p>
+            <h1 class="contact-title">Let's talk about the problem.</h1>
             <p class="contact-description">
               Have a technical problem worth solving? Describe what you are building
               and the problem it addresses.
             </p>
 
-            <div class="contact-meta">
-              <div class="contact-meta-item">
-                <span class="contact-meta-label">STATUS</span>
-                <span class="contact-meta-value">SIGNAL READY</span>
-              </div>
-              <div class="contact-meta-item">
-                <span class="contact-meta-label">DEPTH</span>
-                <span class="contact-meta-value">128</span>
-              </div>
-              <div class="contact-meta-item">
-                <span class="contact-meta-label">MODE</span>
-                <span class="contact-meta-value">DIRECT</span>
-              </div>
-            </div>
           </div>
 
           {/*
@@ -40,7 +26,7 @@ import Footer from "../components/Footer.astro";
               message client-side and opens the user's own mail client, so the
               text is never lost and no third-party service handles it.
             */}
-          <form class="contact-form" id="contact-form">
+          <form class="contact-form" id="contact-form" method="post" action="/contact">
             <div class="form-group">
               <label for="name" class="form-label">Name</label>
               <input type="text" id="name" name="name" class="form-input" required autocomplete="name" />
@@ -61,7 +47,7 @@ import Footer from "../components/Footer.astro";
               <textarea id="problem" name="problem" class="form-input form-textarea" rows="6" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Start Connection →</button>
+            <button type="submit" class="btn btn-primary">Open email draft <span aria-hidden="true">↗</span></button>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
           </form>
 
@@ -109,27 +95,6 @@ import Footer from "../components/Footer.astro";
     gap: var(--space-2);
   }
 
-  .contact-label::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--signal);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--signal-glow);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.4;
-    }
-  }
-
   .contact-title {
     font-family: var(--font-sans);
     font-size: clamp(1.75rem, 3vw, 2.5rem);
@@ -145,36 +110,6 @@ import Footer from "../components/Footer.astro";
     line-height: 1.7;
     max-width: 20rem;
     margin-bottom: var(--space-6);
-  }
-
-  .contact-meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--bg-layer);
-  }
-
-  .contact-meta-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .contact-meta-label {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    color: var(--text-dim);
-    letter-spacing: 0.15em;
-  }
-
-  .contact-meta-value {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--signal);
-    opacity: 0.8;
   }
 
   .contact-form {

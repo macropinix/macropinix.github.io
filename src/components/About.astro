@@ -1,59 +1,52 @@
-<section class="about">
-  <div class="container">
-    <h2 class="section-label">ABOUT</h2>
-    <div class="about-inner">
-      <div class="about-identity">
-        <h3 class="about-name">Mani Kamran</h3>
-        <p class="about-role">Python / Linux & Networking Engineer</p>
-      </div>
-      <p class="about-text">
-        Independent engineer focused on building practical technical systems.
-        Specializes in Python automation, data extraction pipelines, and network tooling.
-        Interested in problems that require precision, reliability, and engineering depth.
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="container about__inner">
+    <div>
+      <p class="section-index">04 / ABOUT</p>
+      <h2 class="section-title" id="about-title">Mani Kamran</h2>
+      <p class="about__role">Independent software engineer</p>
+    </div>
+    <div class="about__content">
+      <p>
+        I build practical technical systems with Python, Linux, data, and networks.
+        I care about clear boundaries, dependable behavior, and software people can
+        actually use.
       </p>
+      <a class="text-link" href="/about">
+        More about my approach <span class="text-link__arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .about {
-    padding: var(--space-9) 0;
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .about-inner {
+  .about__inner {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1fr);
     gap: var(--space-8);
-    align-items: start;
   }
 
-  .about-identity {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .about-name {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .about-role {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--text-muted);
-  }
-
-  .about-text {
+  .about__role {
+    margin-top: var(--space-2);
+    color: var(--text-dim);
     font-size: 0.9375rem;
-    color: var(--text-muted);
-    line-height: 1.7;
   }
 
-  @media (max-width: 768px) {
-    .about-inner {
+  .about__content {
+    max-width: 42rem;
+  }
+
+  .about__content > p {
+    color: var(--text-muted);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.6;
+  }
+
+  .about__content .text-link {
+    margin-top: var(--space-4);
+  }
+
+  @media (max-width: 680px) {
+    .about__inner {
       grid-template-columns: 1fr;
       gap: var(--space-4);
     }
